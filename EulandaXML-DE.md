@@ -153,7 +153,9 @@ Questo è un testo in tedesco.
 
 ## GUID
 
-Eine GUID (= **G**lobally **U**nique **I**dentifier) ist eine 16-Byte-Zahl  und hat somit 128 Bits zur Verfügung. Ein Beispiel einer GUID ist {1884B00B-50C4-402D-BA2E-61140C301099}. Die Zahl wird hexadezimal in Gruppen dargestellt und in geschweifte Klammern verpackt. Die Zahl ist von der Definition her weltweit eindeutig.
+Eine GUID (= **G**lobally **U**nique **I**dentifier) ist eine 16-Byte-Zahl  und hat somit 128 Bits zur Verfügung. Ein Beispiel einer GUID ist {1884B00B-50C4-402D-BA2E-61140C301099}. Die Zahl wird hexadezimal in Gruppen dargestellt und wenn diese innerhalb einer XML-Datei verwendet wird in geschweifte Klammern verpackt. Die Zahl ist von der Definition her weltweit eindeutig.
+
+Wird die GUID für Dateinamen verwendet, so werden die geschweiften Klammern nicht verwendet.
 
 ## MatchSet
 

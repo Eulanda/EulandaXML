@@ -152,7 +152,9 @@ Questo è un testo in tedesco.
 
 ## GUID
 
-A GUID (= **G**lobally **U**nique **I**dentifier) is a 16-byte number and thus has 128 bits available. An example of a GUID is {1884B00B-50C4-402D-BA2E-61140C301099}. The number is represented in hexadecimal in groups and wrapped in curly brackets. The number is globally unique by definition.
+A GUID (= **G**lobally **U**nique **I**dentifier) is a 16-byte number and thus has 128 bits available. An example of a GUID is {1884B00B-50C4-402D-BA2E-61140C301099}. The number is represented hexadecimally in groups and when used within an XML file it is wrapped in curly braces. The number is globally unique by definition.
+
+If the GUID is used for file names, the curly braces are not used.
 
 ## MatchSet
 
