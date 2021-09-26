@@ -175,9 +175,30 @@ Questo è un testo in tedesco.
 
 ## GUID
 
-A GUID (= **G**lobally **U**nique **I**dentifier) is a 16-byte number and thus has 128 bits available. An example of a GUID is {1884B00B-50C4-402D-BA2E-61140C301099}. The number is represented hexadecimally in groups and when used within an XML file it is wrapped in curly braces. The number is globally unique by definition.
+A GUID (= **G**lobally **U**nique **Id**entifier) or UID (**U**nique **Id**entifier) is a 16-byte number and thus has 128 bits available. An example of a GUID is {1884B00B-50C4-402D-BA2E-61140C301099}. The number is represented in hexadecimal in groups. Within XML files it is enclosed in curly brackets, but in filenames it is enclosed without, The number is globally unique by definition.
 
-If the GUID is used in file names, the curly braces must not be used.
+### Generating a UID in T-SQL
+
+```
+DECLARE @uid UNIQUEIDENTIFIER = NEWID();
+SELECT CONVERT(CHAR(255), @uid) [UID];
+```
+
+### Create a UID in Powershell 
+
+```
+(Get-WmiObject -Class Win32_ComputerSystemProduct).UUID
+```
+
+### Create a UID in VbScript
+
+```
+Function UID
+  Dim TypeLib
+  Set TypeLib = CreateObject("Scriptlet.TypeLib")
+  UID = Mid(TypeLib.Guid, 2, 36)
+End Function
+```
 
 ## MatchSet
 
