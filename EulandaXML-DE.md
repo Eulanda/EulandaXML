@@ -245,7 +245,7 @@ Englisch
 [DE:NAME]
 Deutsch
 [IT:NAME]
-IItaliano
+Italiano
 ```
 
 Welche Unterfelder an welcher Stelle erlaubt sind wird an den entsprechenden Stellen des Dokuments angegeben.
@@ -254,43 +254,47 @@ Welche Unterfelder an welcher Stelle erlaubt sind wird an den entsprechenden Ste
 
 Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des Artikels angegeben. Der Feldinhalt ist identisch mit dem eindeutigen Schlüssel der Tabelle. Beim **Artikel** ist dies die **Artikel-Nummer**. 
 
-	<ARTIKELLISTE>
-		<ARTIKEL>
-			<ID.ALIAS>S0221265</ID.ALIAS>
-			<ARTNUMMER>S0221265</ARTNUMMER>
-			<BARCODE>4023125026003</BARCODE>
-			<ARTMATCH/>
-			<MWSTSATZ>19.00</MWSTSATZ>
-			...
-		</ARTIKEL>
-	</ARTIKELLISTE>
+```
+<ARTIKELLISTE>
+   <ARTIKEL>
+      <ID.ALIAS>S0221265</ID.ALIAS>
+      <ARTNUMMER>S0221265</ARTNUMMER>
+      <BARCODE>4023125026003</BARCODE>
+      <ARTMATCH />
+      <MWSTSATZ>19.00</MWSTSATZ>
+      ...
+   </ARTIKEL>
+</ARTIKELLISTE>
+```
 
 Werden in einer Dateien Referenzen zu einem anderen Objekt-Knoten benötigt, so erfolgt dies über ein **ID-Feld**. 
 
-	<AUFTRAGLISTE>
-		<AUFTRAG>
-			<DATUM>19-09-2021T21:16:05</DATUM>
-			<BESTELLDATUM>2021-09-19T21:16:01</BESTELLDATUM>
-			<BESTELLNUMMER>NW-3930</BESTELLNUMMER>
-			<OBJEKT>Onlineshop</OBJEKT>
-			...
-			<SHOPLTEL/>
-			<SHOP>
-				<SHIPPINGINFO>
-					<COST>4.99</COST>
-				</SHIPPINGINFO>
-			</SHOP>
-			<AUFTRAGPOSLISTE>
-				<AUFTRAGPOS>
-					<ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS>
-					<MENGE>1</MENGE>
-					<VKRAB>33.44</VKRAB>
-					<VKVRAB>33.44</VKVRAB>
-					<BASIS>30.08</BASIS>
-				</AUFTRAGPOS>
-			</AUFTRAGPOSLISTE>
-		</AUFTRAG>
-	</AUFTRAGLISTE>
+```
+<AUFTRAGLISTE>
+   <AUFTRAG>
+      <DATUM>19-09-2021T21:16:05</DATUM>
+      <BESTELLDATUM>2021-09-19T21:16:01</BESTELLDATUM>
+      <BESTELLNUMMER>NW-3930</BESTELLNUMMER>
+      <OBJEKT>Onlineshop</OBJEKT>
+      ...
+      <SHOPLTEL />
+      <SHOP>
+         <SHIPPINGINFO>
+            <COST>4.99</COST>
+         </SHIPPINGINFO>
+      </SHOP>
+      <AUFTRAGPOSLISTE>
+         <AUFTRAGPOS>
+            <ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS>
+            <MENGE>1</MENGE>
+            <VKRAB>33.44</VKRAB>
+            <VKVRAB>33.44</VKVRAB>
+            <BASIS>30.08</BASIS>
+         </AUFTRAGPOS>
+      </AUFTRAGPOSLISTE>
+   </AUFTRAG>
+</AUFTRAGLISTE>
+```
 
 Der Knoten AUFTRAGPOS enthält das Feld <ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS> und verweist damit auf den Knoten ARTIKEL und dort das Feld <ID.ALIAS>S0221265</ID.ALIAS>.
 
@@ -310,27 +314,29 @@ Insgesamt werden zwei Adressen pro Auftrag unterstützt - die Rechnung- und die 
 
 Da eine Rechnung-Adresse beliebig viele Lieferadressen haben kann und diese sich nicht ohne weiteres als EULANDA-Kontakt abbilden lassen, wird die Lieferadresse immer als Platzhalter in den Stammdaten angelegt und nur referenziert. Die vollständige Lieferadresse steht dann zwingend im Auftrags-Knoten. Sie ist aber nur erforderlich, wenn diese von der Rechnungsadresse abweicht. Schaden tut es jedoch nicht wenn die Lieferadress-Felder immer befüllt werden.
 
-	<ADRESSELISTE>
-		<ADRESSE>
-			<ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
-			<MATCH>SHOPIFY=FACEMONTY@TOOLHEROS.DE</MATCH>
-			<NAME1>Harald</NAME1>
-			<NAME2>Schmitz</NAME2>
-			<NAME3/>
-			<STRASSE>Langgasse 15</STRASSE>
-			<PLZ>65510</PLZ>
-			<ORT>Idstein</ORT>
-			<LAND>DE</LAND>
-			<EMAIL>facemonty@toolheros.de</EMAIL>
-			<TEL/>
-			<ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
-		</ADRESSE>
-		<ADRESSE>
-			<ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
-			<MATCH>SHOPIFY=SHIPPING</MATCH>
-			<ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
-		</ADRESSE>
-	</ADRESSELISTE>
+```
+<ADRESSELISTE>
+   <ADRESSE>
+      <ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
+      <MATCH>SHOPIFY=FACEMONTY@TOOLHEROS.DE</MATCH>
+      <NAME1>Harald</NAME1>
+      <NAME2>Schmitz</NAME2>
+      <NAME3 />
+      <STRASSE>Langgasse 15</STRASSE>
+      <PLZ>65510</PLZ>
+      <ORT>Idstein</ORT>
+      <LAND>DE</LAND>
+      <EMAIL>facemonty@toolheros.de</EMAIL>
+      <TEL />
+      <ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
+   </ADRESSE>
+   <ADRESSE>
+      <ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
+      <MATCH>SHOPIFY=SHIPPING</MATCH>
+      <ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
+   </ADRESSE>
+</ADRESSELISTE>
+```
 
 Wird eine Lieferadresse verwendet muss diese in der Warenwirtschaft eine zu den Stammdaten haben. In der XML-Datei sollte im Knoten ADRESSE immer ein Dummy-Datensatz angegeben werden. Im einfachsten Fall sieht diese dann wie folgt aus:
 
@@ -1263,9 +1269,11 @@ Der gleiche Auftrag, ohne Artikel-Stammdaten jedoch mit den Adresse-Stammdaten w
 
 Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, auch wenn keine Artikel übertragen werden.
 
-	<ARTIKELLISTE>
-		<ARTIKEL/>			
-	</ARTIKELLISTE>
+```
+<ARTIKELLISTE>
+	<ARTIKEL/>			
+</ARTIKELLISTE>
+```
 
 ## Feldnamen
 

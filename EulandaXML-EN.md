@@ -244,7 +244,7 @@ Englisch
 [DE:NAME]
 Deutsch
 [IT:NAME]
-IItaliano
+Italiano
 ```
 Which subfields are allowed in which place is specified in the corresponding places of the document.
 
@@ -252,48 +252,47 @@ Which subfields are allowed in which place is specified in the corresponding pla
 
 Within a record, e.g. an article, the ID of the article is specified as the first field. The field content is identical to the unique key of the table. For **article** this is the **article number**. 
 
-
-	<ARTIKELLISTE>
-		<ARTIKEL>
-			<ID.ALIAS>S0221265</ID.ALIAS>
-			<ARTNUMMER>S0221265</ARTNUMMER>
-			<BARCODE>4023125026003</BARCODE>
-			<ARTMATCH/>
-			<MWSTSATZ>19.00</MWSTSATZ>
-			...
-		</ARTIKEL>
-	</ARTIKELLISTE>
+```
+<ARTIKELLISTE>
+	<ARTIKEL>
+		<ID.ALIAS>S0221265</ID.ALIAS>
+		<ARTNUMMER>S0221265</ARTNUMMER>
+		<BARCODE>4023125026003</BARCODE>
+		<ARTMATCH/>
+		<MWSTSATZ>19.00</MWSTSATZ>
+		...
+	</ARTIKEL>
+</ARTIKELLISTE>
+```
 
 If references to another object node are required in a file, this is done via an **ID field**. 
 
 ```
 <AUFTRAGLISTE>
-		<AUFTRAG>
-			<DATUM>19-09-2021T21:16:05</DATUM>
-			<BESTELLDATUM>2021-09-19T21:16:01</BESTELLDATUM>
-			<BESTELLNUMMER>NW-3930</BESTELLNUMMER>
-			<OBJEKT>Onlineshop</OBJEKT>
-			...
-			<SHOPLTEL/>
-			<SHOP>
-				<SHIPPINGINFO>
-					<COST>4.99</COST>
-				</SHIPPINGINFO>
-			</SHOP>
-			<AUFTRAGPOSLISTE>
-				<AUFTRAGPOS>
-					<ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS>
-					<MENGE>1</MENGE>
-					<VKRAB>33.44</VKRAB>
-					<VKVRAB>33.44</VKVRAB>
-					<BASIS>30.08</BASIS>
-				</AUFTRAGPOS>
-			</AUFTRAGPOSLISTE>
-		</AUFTRAG>
-	</AUFTRAGLISTE>
+   <AUFTRAG>
+      <DATUM>19-09-2021T21:16:05</DATUM>
+      <BESTELLDATUM>2021-09-19T21:16:01</BESTELLDATUM>
+      <BESTELLNUMMER>NW-3930</BESTELLNUMMER>
+      <OBJEKT>Onlineshop</OBJEKT>
+      ...
+      <SHOPLTEL />
+      <SHOP>
+         <SHIPPINGINFO>
+            <COST>4.99</COST>
+         </SHIPPINGINFO>
+      </SHOP>
+      <AUFTRAGPOSLISTE>
+         <AUFTRAGPOS>
+            <ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS>
+            <MENGE>1</MENGE>
+            <VKRAB>33.44</VKRAB>
+            <VKVRAB>33.44</VKVRAB>
+            <BASIS>30.08</BASIS>
+         </AUFTRAGPOS>
+      </AUFTRAGPOSLISTE>
+   </AUFTRAG>
+</AUFTRAGLISTE>
 ```
-
-​	
 
 The AUFTRAGPOS node contains the field <ARTIKELID.ALIAS>S0221265</ARTIKELID.ALIAS> and thus refers to the ARTIKEL node and there the field <ID.ALIAS>S0221265</ID.ALIAS>.
 
@@ -313,28 +312,29 @@ A total of two addresses are supported per order - the billing address and the s
 
 Since an invoice address can have any number of delivery addresses and these can not be mapped easily as an EULANDA contact, the delivery address is always created as a placeholder in the master data and only referenced. The complete delivery address stands then compellingly in the order node. However, it is necessary only if this differs from the invoice address. However, it does no harm if the delivery address fields are always filled.
 
-
-	<ADRESSELISTE>
-		<ADRESSE>
-			<ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
-			<MATCH>SHOPIFY=FACEMONTY@TOOLHEROS.DE</MATCH>
-			<NAME1>Harald</NAME1>
-			<NAME2>Schmitz</NAME2>
-			<NAME3/>
-			<STRASSE>Langgasse 15</STRASSE>
-			<PLZ>65510</PLZ>
-			<ORT>Idstein</ORT>
-			<LAND>DE</LAND>
-			<EMAIL>facemonty@toolheros.de</EMAIL>
-			<TEL/>
-			<ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
-		</ADRESSE>
-		<ADRESSE>
-			<ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
-			<MATCH>SHOPIFY=SHIPPING</MATCH>
-			<ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
-		</ADRESSE>
-	</ADRESSELISTE>
+```
+<ADRESSELISTE>
+   <ADRESSE>
+      <ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
+      <MATCH>SHOPIFY=FACEMONTY@TOOLHEROS.DE</MATCH>
+      <NAME1>Harald</NAME1>
+      <NAME2>Schmitz</NAME2>
+      <NAME3 />
+      <STRASSE>Langgasse 15</STRASSE>
+      <PLZ>65510</PLZ>
+      <ORT>Idstein</ORT>
+      <LAND>DE</LAND>
+      <EMAIL>facemonty@toolheros.de</EMAIL>
+      <TEL />
+      <ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
+   </ADRESSE>
+   <ADRESSE>
+      <ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
+      <MATCH>SHOPIFY=SHIPPING</MATCH>
+      <ZIELID.ALIAS>SHOP.PAID</ZIELID.ALIAS>
+   </ADRESSE>
+</ADRESSELISTE>
+```
 
 If a delivery address is used, this must have one to the master data in the merchandise management. In the XML file, a dummy data record should always be specified in the ADDRESS node. In the simplest case this looks then as follows:
 
@@ -1025,6 +1025,7 @@ The following section contains two addresses. The first one is a full address, t
 	</ADRESSE>
 </ADRESSELISTE>
 ```
+
 ## Field names
 
 ## ADRESSELISTE.ADRESSE
@@ -1271,9 +1272,11 @@ The same order, without article master data but with the address master data wou
 
 It should be noted that the ARTIKELLISTE node must be specified in any case, even if no articles are transferred.
 
-	<ARTIKELLISTE>
-		<ARTIKEL/>			
-	</ARTIKELLISTE>
+```
+<ARTIKELLISTE>
+	<ARTIKEL/>			
+</ARTIKELLISTE>
+```
 
 ## Field names
 
