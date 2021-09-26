@@ -2,12 +2,15 @@
 
 Dieses Dokument ist auch in englischer Sprache verfügbar - bei Fragen wenden Sie sich bitte an: 
 
-> `Christian Niedergesäß [cn@eulanda.de](mailto:cn@eulanda.de)`
-> 
->`EULANDA Software GmbH`
-> `Beuerbacher Weg 20`
-> `65510 Hünstetten`
-> `Germany`
+```
+Christian Niedergesäß
+cn@eulanda.de
+ 
+EULANDA Software GmbH
+Beuerbacher Weg 20
+65510 Hünstetten
+Germany
+```
 
 Die XML-Schnittstelle von und zur EULANDA Warenwirtschaft erlaubt den Austausch der wesentlichen Daten zwischen zwei EULANDA-ERP-Systemen oder einer EULANDA-ERP und einem beliebigen Shop- oder Auftragserfassungs-System. 
 

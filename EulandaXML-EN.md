@@ -2,12 +2,15 @@
 
 This document is also available in German - if you have any questions, please contact:
 
-> `Christian Niedergesäß [cn@eulanda.de](mailto:cn@eulanda.de)`
-> 
->`EULANDA Software GmbH`
-> `Beuerbacher Weg 20`
-> `65510 Hünstetten`
-> `Germany`
+```
+Christian Niedergesaess
+cn@eulanda.de
+ 
+EULANDA Software GmbH
+Beuerbacher Weg 20
+65510 Huenstetten
+Germany
+```
 
 The XML interface from and to EULANDA ERP allows the exchange of essential data between two EULANDA ERP systems or an EULANDA ERP and any store or order entry system. 
 
