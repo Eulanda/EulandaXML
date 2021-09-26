@@ -88,27 +88,50 @@ Eine andere Möglichkeit ist es, dass ein externer Prozess die XML-Dateien von e
 
 ## XML-Dateinamen
 
-Die Dateinamen der XML-Dateien müssen einer bestimmten Namensgebung folgen. 
+Die Dateinamen der XML-Dateien müssen einer bestimmten Namensgebung folgen. Der Aufbau ist **objektname-kennung-uid.xml** wobei der Objektname und die **Dateiextension** immer in **Kleinbuchstaben** sind.
 
-Der Aufbau ist **objektname-kennung-zeitstempel.xml wobei** alle Namensbestandteile sind in **Kleinbuchstaben** zu verwenden sind. Neben den **Buchstaben** a-z sind nur **Ziffern** der **Bindestrich** und ein **Dezimalpunkt** erlaubt.
+> Ein Dateiname darf für eine Übertragung nur 1x verwendet werden. 
+
+Erlaubte Zeichen sind:
+
+```
+a-z	(Kleinbuchstaben)
+A-Z	(Großbuchstaben)
+0-9	(Ziffern)
+.	(Punkt)
+-	(Bindestrich)
+_	(Unterstrich)
+```
+
+Ein gültiger Dateiname für eine reine Produkt-Übertragung könnte wie folgt aussehen:
+
+```
+product-1294B00B-50C4-402D-BA2E-61140C301099.xml
+```
+
+Wird ein Einzelauftrag übermittelt, so kann optional nach dem Objektnamen die Auftragsnummer als Kennung übergeben werden. Ein gültiger Name einer Auftrags-Übertragung mit der Auftragsnummer **4711** könnte wie folgt aussehen:
+
+```
+order-4711-1224B00B-50C4-402D-BA2E-61140C301099.xml
+```
 
 ### Objektname
 
 Es gibt folgende Objektnamen:
 
-- **stock**	für Lagerzahlen von Produkten
-- **price**	für Preisänderungen zu Produkten
-- **product**	für Produktdatensätze
-- **order**	für Aufträge
-- **status**	für Statusmeldungen wie zum Beispiel Tracking
+- **stock** für Lagerzahlen von Produkten
+- **price** für Preisänderungen zu Produkten
+- **product** für Produktdatensätze
+- **order** für Aufträge
+- **status** für Statusmeldungen wie zum Beispiel Tracking
 
 ### Kennung
 
-Die Kennung ist frei wählbar und kann auch weggelassen werden. Zu Vereinfachung des Wiederfindens empfiehlt es sich bei einzelnen Datensätzen, den Hauptschlüssel dafür zu verwenden. Wird in der order\*.xml Datei beispielsweise nur ein Auftrag abgelegt, so sollte als Kennung die Auftrags- bzw. Bestellnummer verwendet werden; das gleiche gilt bei Status-Meldungen. Wird nur ein Artikel pro product\*.xml-Datei verwendet, sollte als Kennung die Artikel-Nummer oder EAN-Nummer verwendet werden. Sind mehrere Datensätze in einer Datei so kann die Kennung auch weggelassen werden.
+Die Kennung ist optional. Zu besseren Wiederfindens empfiehlt XML-Dateien, die nur einen Datensatz enthalten, diesen in der Kennung sinnvoll zu kennzeichnen. Dies könnte bei einem Einzelauftrag die Auftragsnummer sein.
 
-### Zeitstempel
+### UID
 
-Ein sortierbarer Zeitstempel, der es erlaubt die Dateien chronologisch zu ordnen ist ideal. z.B. yyyy-mm-dd-ss-mss. Ein geeigneter Dateiname für die Bestellung 4711 kann zum Beispiel sein: **order-4711-2021-09-15-12-16-236.xml**
+Die UID ist im nächsten Abschnitt beschrieben. Sie wird im Dateinamen ohne die geschweiften Klammern verwendet. Lässt sich die UID vom Fremdsystem nicht erzeugen, so kann eine beliebig andere Bezeichnung verwendet werden, solange diese immer eindeutig ist und nur die erlaubten Zeichen verwendet.
 
 # Datenformat in der XML-Datei
 
@@ -155,7 +178,7 @@ Questo è un testo in tedesco.
 
 Eine GUID (= **G**lobally **U**nique **I**dentifier) ist eine 16-Byte-Zahl  und hat somit 128 Bits zur Verfügung. Ein Beispiel einer GUID ist {1884B00B-50C4-402D-BA2E-61140C301099}. Die Zahl wird hexadezimal in Gruppen dargestellt und wenn diese innerhalb einer XML-Datei verwendet wird in geschweifte Klammern verpackt. Die Zahl ist von der Definition her weltweit eindeutig.
 
-Wird die GUID für Dateinamen verwendet, so werden die geschweiften Klammern nicht verwendet.
+Wird die GUID in Dateinamen benutzt, so dürfen die geschweiften Klammern nicht verwendet werden.
 
 ## MatchSet
 
