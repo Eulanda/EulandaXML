@@ -379,11 +379,11 @@ The order of XML nodes and repetitions are shown here schematically:
 	</METADATA>
 	<MERKMALBAUM>
 		<ARTIKEL>
-			<PFAD>\Shop (Root target application)</PFAD>
+			<PFAD>\Shop (Root of property tree in the target app)</PFAD>
 			<MERKMAL>
-				< ... Catalog fields ... >
+				< ... Property fields ... >
 				<MERKMAL>
-					< ... nested catalog ... >
+					< ... nested property ... >
 				</MERKMAL>
 			</MERKMAL>
 		</ARTIKEL>
@@ -394,7 +394,7 @@ The order of XML nodes and repetitions are shown here schematically:
         	< ... Article fields ... >
 		</ARTIKEL>
 		<ARTIKEL>			
-			< ... More article ... >
+			< ... more articles ... >
 		</ARTIKEL>		
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
@@ -402,7 +402,7 @@ The order of XML nodes and repetitions are shown here schematically:
 			< ... Address fields ... >
 		</ADRESSE>
 		<ADRESSE>
-			< ... Mther addresses ... >
+			< ... more addresses ... >
 		</ADRESSE>
 	</ADRESSELISTE>
 	<AUFTRAGLISTE>
@@ -410,17 +410,20 @@ The order of XML nodes and repetitions are shown here schematically:
 			<... Header data fields ...>
 			<SHOP>
 				<SHIPPINGINFO>
-				< ... Shipping information ... >
+					< ... Shipping information ... >
 				</SHIPPINGINFO>
 			</SHOP>
 			<AUFTRAGPOSLISTE>
 				<AUFTRAGPOS>
-				<... Order line items ...>
+					<... Line item to the order ...>
+				</AUFTRAGPOS>
+				<AUFTRAGPOS>
+					<... more line items for the order ...>
 				</AUFTRAGPOS>
 			</AUFTRAGPOSLISTE>
 		</AUFTRAG>
 		<AUFTRAG>
-			<... More orders ... >
+			<... more orders ... >
 		</AUFTRAG>		
 	</AUFTRAGLISTE>
 </EULANDA>

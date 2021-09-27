@@ -396,7 +396,7 @@ Die Reihenfolge der XML-Knoten und Wiederholungen sind hier schematisch dargeste
         	< ... Artikelfelder ... >
 		</ARTIKEL>
 		<ARTIKEL>			
-			< ... weiterer Artikel ... >
+			< ... weitere Artikel ... >
 		</ARTIKEL>		
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
@@ -412,12 +412,15 @@ Die Reihenfolge der XML-Knoten und Wiederholungen sind hier schematisch dargeste
 			<... Kopfdatenfelder ...>
 			<SHOP>
 				<SHIPPINGINFO>
-				< ... Informationen zum Versand ... >
+					< ... Informationen zum Versand ... >
 				</SHIPPINGINFO>
 			</SHOP>
 			<AUFTRAGPOSLISTE>
 				<AUFTRAGPOS>
-				<... Positionen zum Auftrag ...>
+					<... Position zum Auftrag ...>
+				</AUFTRAGPOS>
+				<AUFTRAGPOS>
+					<... weitere Positionen zum Auftrag ...>
 				</AUFTRAGPOS>
 			</AUFTRAGPOSLISTE>
 		</AUFTRAG>
