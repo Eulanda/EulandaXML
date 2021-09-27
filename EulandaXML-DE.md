@@ -275,7 +275,7 @@ Welche Unterfelder an welcher Stelle erlaubt sind wird an den entsprechenden Ste
 
 Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des Artikels angegeben. Der Feldinhalt ist identisch mit dem eindeutigen Schlüssel der Tabelle. Beim **Artikel** ist dies die **Artikel-Nummer**. 
 
-```
+```xml
 <ARTIKELLISTE>
    <ARTIKEL>
       <ID.ALIAS>S0221265</ID.ALIAS>
@@ -290,7 +290,7 @@ Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des
 
 Werden in einer Dateien Referenzen zu einem anderen Objekt-Knoten benötigt, so erfolgt dies über ein **ID-Feld**. 
 
-```
+```xml
 <AUFTRAGLISTE>
    <AUFTRAG>
       <DATUM>19-09-2021T21:16:05</DATUM>
@@ -335,7 +335,7 @@ Insgesamt werden zwei Adressen pro Auftrag unterstützt - die Rechnung- und die 
 
 Da eine Rechnung-Adresse beliebig viele Lieferadressen haben kann und diese sich nicht ohne weiteres als EULANDA-Kontakt abbilden lassen, wird die Lieferadresse immer als Platzhalter in den Stammdaten angelegt und nur referenziert. Die vollständige Lieferadresse steht dann zwingend im Auftrags-Knoten. Sie ist aber nur erforderlich, wenn diese von der Rechnungsadresse abweicht. Schaden tut es jedoch nicht wenn die Lieferadress-Felder immer befüllt werden.
 
-```
+```xml
 <ADRESSELISTE>
    <ADRESSE>
       <ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
@@ -361,7 +361,7 @@ Da eine Rechnung-Adresse beliebig viele Lieferadressen haben kann und diese sich
 
 Wird eine Lieferadresse verwendet muss diese in der Warenwirtschaft eine zu den Stammdaten haben. In der XML-Datei sollte im Knoten ADRESSE immer ein Dummy-Datensatz angegeben werden. Im einfachsten Fall sieht diese dann wie folgt aus:
 
-```
+```xml
 <ADRESSE>
 	<ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
 	<MATCH>SHOPIFY=SHIPPING</MATCH>
@@ -373,7 +373,7 @@ Wird eine Lieferadresse verwendet muss diese in der Warenwirtschaft eine zu den 
 
 Die Reihenfolge der XML-Knoten und Wiederholungen sind hier schematisch dargestellt:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -435,7 +435,7 @@ Wenn es um eine reine Artikel-Daten geht, brauchen natürlich die Knoten ADRESSL
 
 Werden Artikeldaten übergeben so ist zumindest ein leerer Knoten MERKMALBAUM mit eingeschlossenem leeren ARTIKEL-Knoten mit anzugeben.
 
-```
+```xml
 <MERKMALBAUM>
 		<ARTIKEL/>
 </MERKMALBAUM>
@@ -447,7 +447,7 @@ Die Metadaten stehen am Dateianfang und beschreiben verschiedene Standards, die 
 
 ## XML-Darstellung
 
-```
+```xml
 <METADATA>
 	<VERSION>1.1</VERSION>
 	<GENERATOR>SHOPIFY</GENERATOR>
@@ -460,6 +460,7 @@ Die Metadaten stehen am Dateianfang und beschreiben verschiedene Standards, die 
 	<USERNAME/>
 	<DATABASEVERSION>5.63</DATABASEVERSION>
 	<APPLICATION>C:\shop\test\Eul.exe</APPLICATION>
+    <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
 	<ALIAS>Mustermann KG</ALIAS>
 	<CLIENT>Mustermann</CLIENT>
 	<PARTNER>nopCommerce</PARTNER>
@@ -480,9 +481,10 @@ Die Metadaten stehen am Dateianfang und beschreiben verschiedene Standards, die 
 | DATEFORMAT      | Format des Datums. Dies ist aktuell nur **ISO8601**          | ISO8601  | Text          | ja   |
 | FIELDNAMES      | Die Feldnamen in der XML-Datei sind aktuell nur NATIVE zulässig. Also mit den Namen, wie diese auch in der SQL-Datenbank vorhanden sind. | NATIVE   | Text          | ja   |
 | FLOATFORMAT     | Format bei Fließkommazahlen. Aktuell ist nur **US** zulässig. Hier werden nur das führende **Minuszeichen** sowie ein **Dezimalpunkt** neben den **Ziffern** 0-9 erlaubt. | US       | Text          | ja   |
-| GENERATOR       | Ersteller der XML-Datei ist ein Freier Text in Großbuchstaben ohne Umlaute |          | Text          | ja   |
+| GENERATOR       | Ersteller der XML-Datei ist ein Freier Text in Großbuchstaben ohne Umlaute. |          | Text          | ja   |
 | PARTNER         | Der Name ist eine Kurzbezeichnung für das Zielsystem. Die Angabe ist optional und dient nur dem Fehlertracking. |          | Text max: 100 | nein |
 | PCNAME          | Der Feldname kann leer gelassen werden oder es wird der PC-Name des erzeugenden PCs verwendet; dies erleichtert eventuelle Fehlersuchen. |          | Text          | ja   |
+| UDL             | Gibt zu Testzwecken die UDL-Datei, wenn es sich um die EULANDA-Warenwirtschaft handelt. Die Angabe ist optional und dient nur dem Fehlertracking. |          | Text max: 100 | nein |
 | USERNAME        | Der Feldname kann leer übergeben werden, oder einen Ansprechpartner wie er zum Beispiel vom Betriebssystem verwendet wird; dies erleichtert eventuelle Fehlersuchen. |          | Text          | ja   |
 | VERSION         | Versionsnummer des Dateiformats. Die aktuelle Version ist **1.1** | 1.1      | Text          | ja   |
 
@@ -494,7 +496,7 @@ Merkmale sind in einer Baumstruktur organisiert. Hierbei sind alles Ordner und l
 
 Werden zum Beispiel Artikeldaten übertragen, so ist stets der komplette Merkmalbaum anzugeben, auch wenn nur Teile eines Artikelstamms übertragen werden und eventuell diese Merkmale dort gar nicht referenziert werden. Der Knotenname für die Merkmale lautet **MERKMALBAUM**. Dieser Knoten ist in jedem Fall anzugeben, wenn Artikeldaten in der XML-Datei übertragen werden, auch wenn Merkmale nicht explizit genutzt werden.
 
-```
+```xml
 <MERKMALBAUM>
 		<ARTIKEL/>
 </MERKMALBAUM>
@@ -506,7 +508,7 @@ Zur Synchronisation liefert das initiierende System eine UID zu jedem Merkmal. �
 
 Im folgenden ist ein einfacher Merkmalbaum drei Ästen von der Root weg aufgeführt, Der zweite Ast ist ein Ordner (MERKMALTYP=0), der zwei End-Merkmalen enthält. Der erste und letzte Ast haben keine Unterelemente, und sind damit automatisch End-Merkmale.
 
-```
+```xml
 <MERKMALBAUM>
 	<ARTIKEL>
 		<PFAD>\Shop</PFAD>
@@ -546,7 +548,7 @@ Im folgenden ist ein einfacher Merkmalbaum drei Ästen von der Root weg aufgefü
 
 Ein vollständig beschriebenes End-Merkmal inkl. Sprachen würde entsprechend wie folgt aussehen:
 
-```
+```xml
 <MERKMALBAUM>
 	<ARTIKEL>
 		<PFAD>\Shop</PFAD>
@@ -601,7 +603,7 @@ Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuo
 
 ## XML-Darstellung
 
-```
+```xml
 <ARTIKELLISTE>
 	<ARTIKEL>
 		<ID.ALIAS>6000505054</ID.ALIAS>
@@ -691,7 +693,7 @@ Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuo
 
 ## XML-Datei einer product\*.xml
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
     <METADATA>
@@ -1013,6 +1015,77 @@ Die Lagerzahlen können mit dem Stammdatensatz zusammen übergeben werden. Zusä
 | -------- | ------------------------------------------------------------ | -------- | ------------- | ---- |
 | PFAD     | Gibt die die absolute Lagerverfügbarkeit an. Die einzelnen Pfadabschnitte werden durch Backslash getrennt. Beispielsweise: **\Hersteller\Geberit**. Dieses Feld kann sich im Knoten MERKMAL beliebig wiederholen. Werden Pfade angegeben, so muss in jedem Fall der Komplette Merkmalbaum mit seiner Struktur mit angegeben werden. |          | Text max: 200 | nein |
 
+# Preis-Änderungen
+
+Preisänderungen können in einer eigenen Datei mit dem Namen **price\*.xml** übertragen werden. Diese können zum Beispiel an ein Shopsystem exportiert werden, oder von einem Großhandel entgegengenommen werden.
+
+Wird die Preisänderungs-Datei exportiert muss diese in den **\outbox\pending**-Ordner ausgegeben werden. Wird diese von einem Großhandel eingespielt, entsprechend in den **\inbox\pending**-Ordner.
+
+## XML-Darstellung
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>NOPCOMMERCE</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>2021-09-27T18:46:37</DATE>
+      <PCNAME>BETA7276</PCNAME>
+      <USERNAME>ADMINISTRATOR</USERNAME>
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+      <APPLICATION>C:\all\Test\Eul.exe</APPLICATION>
+      <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
+      <ALIAS>EULANDA Software GmbH</ALIAS>
+      <CLIENT>Eulanda</CLIENT>
+      <PARTNER>nopCommerce</PARTNER>
+   </METADATA>
+   <MERKMALBAUM>
+      <ARTIKEL />
+   </MERKMALBAUM>
+   <RABATTLISTE />
+   <ARTIKELLISTE>
+      <ARTIKEL>
+         <ID.ALIAS>3000250531</ID.ALIAS>
+         <ARTNUMMER>3000250531</ARTNUMMER>
+         <EKNETTO>68.00</EKNETTO>
+         <BRUTTOFLG>0</BRUTTOFLG>
+         <VK>84.00</VK>
+         <VKNETTO>84.00</VKNETTO>
+         <VKBRUTTO>99.96</VKBRUTTO>
+      </ARTIKEL>
+      <ARTIKEL>
+         <ID.ALIAS>3000280269</ID.ALIAS>
+         <ARTNUMMER>3000280269</ARTNUMMER>
+         <EKNETTO>16.00</EKNETTO>
+         <BRUTTOFLG>0</BRUTTOFLG>
+         <VK>19.12</VK>
+         <VKNETTO>19.12</VKNETTO>
+         <VKBRUTTO>22.75</VKBRUTTO>
+      </ARTIKEL>
+   </ARTIKELLISTE>
+   <ADRESSELISTE />
+   <AUFTRAGLISTE />
+</EULANDA>
+```
+
+## Feldnamen
+
+## ARTIKELLISTE.ARTIKEL
+
+| Feldname     | Beschreibung                                                 | Standard | Typ                                  | Muss   |
+| ------------ | ------------------------------------------------------------ | -------- | ------------------------------------ | ------ |
+| **ID.ALIAS** | Das Schlüsselfeld **ID.ALIAS** ist der Platzhalter, für die in der Warenwirtschaft verwendete ID. Sie muss in jedem Fall übergeben werden und muss denselben Inhalt haben wie das Feld ARTNUMMER. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | ja     |
+| ARTNUMMER    | Die Artikelnummer ist in Großbuchstaben anzugeben. Die Nummer selbst darf nur Buchstaben A-Z sowie Ziffern von 0-9 enthalten. Umlaute sind in z.B. ü in UE oder ß in SS zu übergeben. Zusätzlich sind Bindestrich, Punkt und der Unterstrich zulässig. Die Artikelnummer muss **eindeutig** sein. Wird von mehrere Datenlieferanten importiert und gibt es Artikelnummern-Überscheidungen, so sollte überlegt werden mit einem Präfix zu werden. Zum Beispiel **Unielektro** mit der Artikelnummer **568658997** könnte dann vom Datenlieferanten dann als **UE.568658997** übermittelt werden. Hierbei wäre es wichtig, dass diese Darstellung dann durchgängig genutzt wird. Also bei Bestellungen, Aufträgen, Preisübergaben usw. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | ja     |
+| BRUTTOFLG    | Dieser Boolean gibt an, ob der übergebene Preis die MwSt. enthält. Hat BRUTTOFLG den Wert 1, so enthält der VK die MwSt. Der Prozentsatz der MwSt. wird in dem Fall im Feld MWST angegeben. Bei B2C Systemen ist es üblich den VK inkl. MwSt. anzugeben. In diesem Fall bekommt der Endverbraucher eine Rechnung mit Inklusive Preisen, bei der am Ende die gesamte MwSt. herausgerechnet und ausgewiesen wird. Im Gegensatz dazu ist ein VK ohne MwSt. im Bereich B2B üblich. Hier bekommt der Unternehmer eine Netto-Rechnung, bei der am Ende auf die Netto-Gesamtsumme die MwSt. heraufgeschlagen wird. Beide Systeme sind in EULANDA parallel möglich. Durch das BRUTTOFLG wird erreicht, dass Endkundenpreise Cent-genau sind. |          | BOOLEAN                              | ja     |
+| EKNETTO      | Der Einkaufspreis wird ohne MwSt. angegeben. Der EKNETTO ist zweistellig (Cent-genau). Beim Export kann dieser in einem Shop-System der Ertragskalkulation dienen. Wird die Datei vom Großhandel entgegen genommen enthält er den Einkaufspreis. |          | FLOAT 18.2                           | nein   |
+| VK           | Der Verkaufspreis kann entweder mit oder ohne MwSt. angegeben werden. So wie der Preis angegeben wird, wird er in die Datenbank der Warenwirtschaft übernommen. Damit das System intern korrekt rechnen kann ist das Zusatzfeld BRUTTOFLG in jedem Fall erforderlich. Der VK ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | ja     |
+| VKNETTO      | Unabhängig vom in der Datenbank gespeicherten VK lässt sich auch ein reiner VK ohne MwSt. ausgeben. Dies ist kein Datenbankfeld, sondern ein berechnetes Feld. Es kann nicht in die Warenwirtschaft importiert werden, sondern dient der einfachen Weiterverarbeitung von Fremdsystemen. Es ist jedoch üblich, dieses Feld generell mit anzugeben. Der VKNETTO ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | (nein) |
+| VKBRUTTO     | Unabhängig vom in der Datenbank gespeicherten VK lässt sich auch ein reiner VK mit MwSt. ausgeben. Dies ist kein Datenbankfeld, sondern ein berechnetes Feld. Es kann nicht in die Warenwirtschaft importiert werden, sondern dient der einfachen Weiterverarbeitung von Fremdsystemen. Es ist jedoch üblich, dieses Feld generell mit anzugeben. Der VKBRUTTO ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | (nein) |
+
 # Adress-Stammdaten
 
 Adressen können über eine XML-Datei angelegt werden, es ist aber auch möglich, dass Adressen über eine Auftrags-XML-Datei angelegt werden. Der Aufbau des Adressen-Knotens ist jedoch identisch. Werden lediglich Adressen übertragen so haben diese den Dateinamen address*.xml.
@@ -1023,7 +1096,7 @@ Innerhalb der Warenwirtschaft werden alle Adressen in einer Tabelle gespeichert 
 
 Der folgende Abschnitt enthält zwei Adressen. Die erste ist eine vollständige Adresse, die zweite ist eine Dummy-Adresse um einen Link  als Lieferadresse zu unterstützen.
 
-```
+```xml
 <ADRESSELISTE>
 	<ADRESSE>
 		<ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
@@ -1072,7 +1145,7 @@ Der folgende Abschnitt enthält zwei Adressen. Die erste ist eine vollständige 
 
 Die folgende Datei enthält einen vollständigen Auftrag inkl. der Stammdaten in einer einzigen XML-Datei. Innerhalb der XML-Datei werden die Stammdaten über ein ID-System referenziert.
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -1201,7 +1274,7 @@ Die folgende Datei enthält einen vollständigen Auftrag inkl. der Stammdaten in
 
 Der gleiche Auftrag, ohne Artikel-Stammdaten jedoch mit den Adresse-Stammdaten würde entsprechend wie folgt aussehen.
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -1293,7 +1366,7 @@ Der gleiche Auftrag, ohne Artikel-Stammdaten jedoch mit den Adresse-Stammdaten w
 
 Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, auch wenn keine Artikel übertragen werden.
 
-```
+```xml
 <ARTIKELLISTE>
 	<ARTIKEL/>			
 </ARTIKELLISTE>

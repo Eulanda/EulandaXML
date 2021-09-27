@@ -273,7 +273,7 @@ Which subfields are allowed in which place is specified in the corresponding pla
 
 Within a record, e.g. an article, the ID of the article is specified as the first field. The field content is identical to the unique key of the table. For **article** this is the **article number**. 
 
-```
+```xml
 <ARTIKELLISTE>
 	<ARTIKEL>
 		<ID.ALIAS>S0221265</ID.ALIAS>
@@ -288,7 +288,7 @@ Within a record, e.g. an article, the ID of the article is specified as the firs
 
 If references to another object node are required in a file, this is done via an **ID field**. 
 
-```
+```xml
 <AUFTRAGLISTE>
    <AUFTRAG>
       <DATUM>19-09-2021T21:16:05</DATUM>
@@ -333,7 +333,7 @@ A total of two addresses are supported per order - the billing address and the s
 
 Since an invoice address can have any number of delivery addresses and these can not be mapped easily as an EULANDA contact, the delivery address is always created as a placeholder in the master data and only referenced. The complete delivery address stands then compellingly in the order node. However, it is necessary only if this differs from the invoice address. However, it does no harm if the delivery address fields are always filled.
 
-```
+```xml
 <ADRESSELISTE>
    <ADRESSE>
       <ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
@@ -359,7 +359,7 @@ Since an invoice address can have any number of delivery addresses and these can
 
 If a delivery address is used, this must have one to the master data in the merchandise management. In the XML file, a dummy data record should always be specified in the ADDRESS node. In the simplest case this looks then as follows:
 
-```
+```xml
 <ADRESSE>
 	<ID.ALIAS>SHOPIFY=SHIPPING</ID.ALIAS>
 	<MATCH>SHOPIFY=SHIPPING</MATCH>
@@ -371,7 +371,7 @@ If a delivery address is used, this must have one to the master data in the merc
 
 The order of XML nodes and repetitions are shown here schematically:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -433,7 +433,7 @@ If it is about a pure article data, of course the nodes ADRESSLISTE and AUFTRAGL
 
 If article data are transferred, at least one empty MERKMALBAUM node with an enclosed empty ARTIKEL node must be specified.
 
-```
+```xml
 <MERKMALBAUM>
 		<ARTIKEL/>
 </MERKMALBAUM>
@@ -445,7 +445,7 @@ The meta data stand at the file beginning and describe different standards, whic
 
 ## XML representation
 
-```
+```xml
 <METADATA>
 	<VERSION>1.1</VERSION>
 	<GENERATOR>SHOPIFY</GENERATOR>
@@ -458,6 +458,7 @@ The meta data stand at the file beginning and describe different standards, whic
 	<USERNAME/>
 	<DATABASEVERSION>5.63</DATABASEVERSION>
 	<APPLICATION>C:\shop\test\Eul.exe</APPLICATION>
+    <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
 	<ALIAS>Mustermann KG</ALIAS>
 	<CLIENT>Mustermann</CLIENT>
 	<PARTNER>nopCommerce</PARTNER>
@@ -477,9 +478,10 @@ The meta data stand at the file beginning and describe different standards, whic
 | DATEFORMAT | format of the date. This is currently only **ISO8601** | ISO8601 | Text | yes |
 | FIELDNAMES | The field names in the XML file are currently only NATIVE. So with the names as they exist in the SQL database. | NATIVE | Text | yes |
 | FLOATFORMAT | Format for floating point values. Currently only **US** is allowed. Here only the leading **minus sign** and a **decimal point** are allowed next to the **digits** 0-9. | US | Text | yes |
-| GENERATOR | The creator of the XML file is a free text in uppercase without umlauts | | Text | yes |
+| GENERATOR | The creator of the XML file is a free text in uppercase without umlauts. | | Text | yes |
 | PARTNER | The name is a short name for the target system. It is optional and is only used for error tracking. |  | Text max: 100 |no|
 | PCNAME | The field name can be left empty or the PC name of the generating PC is used; this facilitates possible error tracking. |  | Text |yes|
+| UDL | Gives for test purposes the UDL file if it is the EULANDA merchandise management. The specification is optional and serves only the error tracking. | | Text max: 100 |no|
 | USERNAME | The field name can be left empty, or a contact name as used by the operating system for example; this facilitates possible error searches. |  | Text |yes|
 | VERSION | Version number of the file format. The current version is **1.1** | 1.1 | text | yes |
 
@@ -491,7 +493,7 @@ Properties are organized in a tree structure. Here all are folders and only the 
 
 If, for example, article data are transferred, the complete properties tree must always be specified, even if only parts of an article base are transferred and possibly these properties are not referenced there at all. The node name for the properties is **MERKMALBAUM**. This node is to be indicated in each case, if article data in the XML file are transferred, even if properties are not used explicitly.
 
-```
+```xml
 <MERKMALBAUM>
 		<ARTIKEL/>
 </MERKMALBAUM>
@@ -503,7 +505,7 @@ For synchronization, the initiating system provides a UID for each feature. Chan
 
 The following is a simple feature tree three branches away from the root, The second branch is a folder (MERKMALTYP=0) that contains two end features. The first and last branches have no sub-elements, and thus are automatically end features.
 
-```
+```xml
 <MERKMALBAUM>
 	<ARTIKEL>
 		<PFAD>\Shop</PFAD>
@@ -543,7 +545,7 @@ The following is a simple feature tree three branches away from the root, The se
 
 A fully described end feature including languages would accordingly look like the following:
 
-```
+```xml
 <MERKMALBAUM>
 	<ARTIKEL>
 		<PFAD>\Shop</PFAD>
@@ -600,7 +602,7 @@ If articles are to be transferred from the Shop to an EULANDA, then the catalog 
 ## XML representation
 
 
-```
+```xml
 <ARTIKELLISTE>
 	<ARTIKEL>
 		<ID.ALIAS>6000505054</ID.ALIAS>
@@ -689,7 +691,7 @@ If articles are to be transferred from the Shop to an EULANDA, then the catalog 
 ```
 ## XML file of a product\*.xml
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
     <METADATA>
@@ -1016,6 +1018,78 @@ The stock numbers can be passed together with the master data record. Additional
 | --------- | ------------------------------------------------------------ | -------- | ------------- | --------- |
 | PFAD      | Indicates the absolute stock availability. The individual path sections are separated by backslash. For example: **\Manufacturer\Geberit**. This field can be repeated in the MERKMAL node as required. If paths are specified, the complete feature tree with its structure must be specified in each case. |          | Text max: 200 | no        |
 
+# Price changes
+
+Price changes can be transferred in a separate file named **price\*.xml**. These can be exported to a store system, for example, or received from a wholesaler.
+
+If the price change file is exported, it must be output to the **\outbox\pending** folder. If the price change file is imported by a wholesaler, it must be output to the **\inbox\pending** folder.
+
+## XML representation
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>NOPCOMMERCE</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>2021-09-27T18:46:37</DATE>
+      <PCNAME>BETA7276</PCNAME>
+      <USERNAME>ADMINISTRATOR</USERNAME>
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+      <APPLICATION>C:\all\Test\Eul.exe</APPLICATION>
+      <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
+      <ALIAS>EULANDA Software GmbH</ALIAS>
+      <CLIENT>Eulanda</CLIENT>
+      <PARTNER>nopCommerce</PARTNER>
+   </METADATA>
+   <MERKMALBAUM>
+      <ARTIKEL />
+   </MERKMALBAUM>
+   <RABATTLISTE />
+   <ARTIKELLISTE>
+      <ARTIKEL>
+         <ID.ALIAS>3000250531</ID.ALIAS>
+         <ARTNUMMER>3000250531</ARTNUMMER>
+         <EKNETTO>68.00</EKNETTO>
+         <BRUTTOFLG>0</BRUTTOFLG>
+         <VK>84.00</VK>
+         <VKNETTO>84.00</VKNETTO>
+         <VKBRUTTO>99.96</VKBRUTTO>
+      </ARTIKEL>
+      <ARTIKEL>
+         <ID.ALIAS>3000280269</ID.ALIAS>
+         <ARTNUMMER>3000280269</ARTNUMMER>
+         <EKNETTO>16.00</EKNETTO>
+         <BRUTTOFLG>0</BRUTTOFLG>
+         <VK>19.12</VK>
+         <VKNETTO>19.12</VKNETTO>
+         <VKBRUTTO>22.75</VKBRUTTO>
+      </ARTIKEL>
+   </ARTIKELLISTE>
+   <ADRESSELISTE />
+   <AUFTRAGLISTE />
+</EULANDA>
+```
+
+## Field names
+
+## ARTIKELLISTE.ARTIKEL
+
+| Feld name    | Description                                                  | Standard | Type                                 | Mandatory |
+| ------------ | ------------------------------------------------------------ | -------- | ------------------------------------ | --------- |
+| **ID.ALIAS** | The key field **ID.ALIAS** is the placeholder, for the ID used in the enterprise resource planning. It must be passed in any case and must have the same content as the field ARTNUMMER. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | yes       |
+| ARTNUMMER    | The article number must be indicated in capital letters. The number itself may only contain letters A-Z and digits from 0-9. Umlauts are to be passed in e.g. ü in UE or ß in SS. Additionally, hyphen, dot and the underscore are allowed. The article number must be **unique**. If you import from several data suppliers and there are article number overlaps, you should consider using a prefix. For example **Unielektro** with the article number **568658997** could then be transmitted by the data supplier as **UE.568658997**. Here it would be important that this representation is used then continuously. So for purchase orders, orders, price transfers, etc. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | yes       |
+| BRUTTOFLG    | This boolean indicates whether the transferred price includes VAT. If BRUTTOFLG has the value 1, the sales price includes VAT. In this case, the VAT percentage is specified in the MWST field. In B2C systems it is common to specify the sales price including VAT. In this case, the end user receives an invoice with inclusive prices, in which the total VAT is deducted and displayed at the end. In contrast, a sales price without VAT is common in B2B. Here the entrepreneur gets a net invoice, where the VAT is added to the net total at the end. Both systems are possible in EULANDA parallel. By the BRUTTOFLG is achieved that end customer prices are cent-exact. |          | BOOLEAN                              | yes       |
+| EKNETTO      | The purchase price is indicated without VAT. The EKNETTO is in two digits (cents). |          | FLOAT 18.2                           | no        |
+| VK           | The sales price can be specified either with or without VAT. The price will be transferred to the inventory management database in the same way as it is entered. So that the system can calculate internally correctly the additional field BRUTTOFLG is necessary in any case. The sales price has two digits (to the nearest cent). |          | FLOAT 18.2                           | yes       |
+| VKNETTO      | Regardless of the sales price stored in the database, it is also possible to output a pure sales price without VAT. This is not a database field, but a calculated field. It cannot be imported into the merchandise management system, but is used for simple further processing by external systems. However, it is common to specify this field in general. The VKNETTO is two-digit (cent-exact). |          | FLOAT 18.2                           | (no)      |
+| VKBRUTTO     | Regardless of the sales price stored in the database, a pure sales price with VAT can also be output. This is not a database field, but a calculated field. It cannot be imported into the merchandise management system, but is used for simple further processing by external systems. However, it is common to specify this field in general. The VKBRUTTO has two digits (to the nearest cent). |          | FLOAT 18.2                           | (no)      |
+
+
 # Address master data
 
 Addresses can be created via an XML file, but it is also possible that addresses are created via an order XML file. However, the structure of the address node is identical. If only addresses are transferred, they have the file name address*.xml.
@@ -1026,7 +1100,7 @@ Within the merchandise management all addresses are stored in a table and later 
 
 The following section contains two addresses. The first one is a full address, the second one is a dummy address to support a link as delivery address.
 
-```
+```xml
 <ADRESSELISTE>
 	<ADRESSE>
 		<ID.ALIAS>SHOPIFY=FACEMONTY@TOOLHEROS.DE</ID.ALIAS>
@@ -1075,7 +1149,7 @@ The following section contains two addresses. The first one is a full address, t
 
 The following file contains a complete order including the master data in a single XML file. Within the XML file the master data is referenced by an ID system.
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -1204,7 +1278,7 @@ The following file contains a complete order including the master data in a sing
 
 The same order, without article master data but with the address master data would look accordingly as follows.
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <EULANDA>
 	<METADATA>
@@ -1296,7 +1370,7 @@ The same order, without article master data but with the address master data wou
 
 It should be noted that the ARTIKELLISTE node must be specified in any case, even if no articles are transferred.
 
-```
+```xml
 <ARTIKELLISTE>
 	<ARTIKEL/>			
 </ARTIKELLISTE>
