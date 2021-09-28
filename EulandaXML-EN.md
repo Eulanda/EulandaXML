@@ -1025,6 +1025,7 @@ The stock numbers can be passed together with the master data record. Additional
 Price changes can be transferred in a separate file named **price\*.xml**. These can be exported to a store system, for example, or received from a wholesaler.
 
 If the price change file is exported, it must be output to the **\outbox\pending** folder. If the price change file is imported by a wholesaler, it must be output to the **\inbox\pending** folder.
+
 [Load sample...](Samples/price-52D977FD-002C-4494-AE4F-D41C52468BEB.xml)
 
 ## XML representation
@@ -1151,6 +1152,7 @@ The following section contains two addresses. The first one is a full address, t
 ## XML file of an order\*.xml
 
 The following file contains a complete order including the master data in a single XML file. Within the XML file the master data is referenced by an ID system.
+
 [Load sample...](Samples/order-3930-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
 
 ```xml
