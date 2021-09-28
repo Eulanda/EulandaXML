@@ -1388,7 +1388,7 @@ Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, a
 | **LADRESSEID.ALIAS** | Enthält den Schlüssel für die Lieferadressen-Referenz. Sie muss den selben Inhalt wie das dazugehörende Feld **ID.ALIAS** des Knoten **ADRESSE** haben. Die Lieferadresse muss nur angegeben werden, wenn diese von der Rechnungsadresse abweicht. Wird Sie angegeben, so muss die LADRESSEID.ALIAS auf den Dummy-Adresssatz der Lieferadresse im Knoten ADRESSE zeigen - also den selben Inhalt haben wie das dortige Feld ID.ALIAS der Lieferadresse. Da die Lieferadresse im Stamm leer sein muss, müssen bei Abweichender Lieferadresse in jedem Fall die Lieferadressen-Felder LNAME1, LSTRASSE usw. befüllt werden. |            | Text          | (ja)   |
 | **ZIELID.ALIAS**     | Enthält das Schlüsselfeld zur Zahlungsbedingung. Hier kann der intern von EULANDA benutzte Name der Zahlungsbedingung verwendet werden. Es kann aber hier auch ein neuer unbekannter Name verwendet werden. Der Import würde dann zunächst eine entsprechende Zahlungsbedingung in den Stammdaten anlegen und mit der Adresse referenzieren. Übliche Namen wären SHOP.PAID, SHOP.PREPAID, SHOP.PAYPAL usw. |            | Text max: 100 | ja     |
 | BESTELLDATUM         | Das Datum der Bestellung wird normalerweise in einem Shop-System durch den Anwender vergeben. Dies ist in der Regel dasselbe Datum wie das Feld DATUM. |            | DateTime      | ja     |
-| BESTELLNUMMER        | Bestellnummer des Fremdsystems welches zur der Referenzierung dient. Diese wird in der Warenwirtschaft als Kunden-Bestellnummer geführt. |            | Text          | ja     |
+| BESTELLNUMMER        | Bestellnummer des Fremdsystems welches zur der Referenzierung dient. Diese wird in der Warenwirtschaft als Kunden-Bestellnummer geführt. |            | Text max: 30  | ja     |
 | BRUTTOFLG            | Dieses Feld gibt an, ob der Verkaufspreis **VK** ein Preis inklusive MwSt. ist. Bei einem B2C-Auftrag ist dies meist der Fall. In einem B2C-Onlineshop werden in der Regel die Preise inkl. MwSt. angegeben. Der Warenkorb wird addiert und aus der Summe die MwSt. berechnet und angegeben. Es erfolgt nur eine Rundung. Um dies in der Warenwirtschaft abbilden zu können, müssen in so einem Fall diese identischen Preise übertragen werden und dies wird mit dem BRUTTOFLG angegeben. |            | Boolean       | ja     |
 | DATUM                | Datum und Uhrzeit der Auftragsanlage im Fremdsystem.         |            | DateTime      | ja     |
 | LAND                 | Das Land der Adresse wird mit dem zweistelligen ISO-Kürzel angegeben. Also FR für Frankreich, DE für Deutschland usw. Intern kann die Warenwirtschaft auch mit den Landeskürzel aus dem KFZ-Bereich arbeiten. Da wäre Deutschland dann anstatt DE ein D. In der Schnittstelle darf jedoch nur das zweistellige ISO-Kürzel genutzt werden. Die Umsetzung in das intern verwendete Format erfolgt automatisch. |            | Text max: 6   | ja     |
@@ -1432,4 +1432,61 @@ Diese minimalen Felder der Auftragsposition genügen, wenn der Artikelstamm beka
 | BASIS               | Basispreis der Position, dies ist der Einkaufspreis inkl. Sonderkonditionen die zu diesem Auftrag geführt haben. Oft stimmt dieser mit dem EKNETTO des Artikelstamms überein. Der Basispreis kann mit oder ohne MwSt. angegeben werden. Ist beim Auftrag das BRUTTOFLG auf 1 gesetzt, so sind alle Preise der Position inklusive MwSt. anzugeben, ansonsten ohne MwSt. |          | Float 18.2    | (nein) |
 | VKRAB               | Der rabattierte Verkaufspreis dieser Position bezogen auf ein Stück. Der VKRAB kann mit oder ohne MwSt. angegeben werden. Ist beim Auftrag das BRUTTOFLG auf 1 gesetzt, so sind alle Preise der Position inklusive MwSt. anzugeben, ansonsten ohne MwSt. |          | Float 18.2    | ja     |
 | VKVRAB              | Der Verkaufspreis der Position ohne Rabatt. Ist beim Auftrag das BRUTTOFLG auf 1 gesetzt, so sind alle Preise der Position inklusive MwSt. anzugeben, ansonsten ohne MwSt. Dieses Feld wird benötigt um den Rabatt in einer Rechnung später ausweisen zu können. |          | Float 18.2    | ja     |
+
+# Status-Mitteilung
+
+Über eine Status-Meldung lassen sich nach einem Paketversand der Frachtführer und die Sendungsverfolgungsnummer an das Auftragserfassungs-System wie zum Beispiel ein Shop-System übermitteln. Im Normalfall werden Status-Meldung aus EULANDA® auf diese Weise als XML-Datei exportiert. Die Informationen werden dann im zweiten Schritt zum an ein Shop-System wie nopCommerce übertragen.
+
+Es ist aber auch möglich, dass ein Großhandel Drop-Shipping durchführt und die bestellte Ware direkt an den Endverbraucher sendet und an EULANDA® eine Status-Meldung versendet. In diesem Fall importiert EULANDA® die XML-Datei und kann dann anschließend je nach hinterlegtem Workflow, einen Auftrag buchen, eine Lieferung erzeugen und eine  Rechnung erzeugen. Diese lässt sich über die Schnittstelle auch direkt per E-Mail an den Endverbraucher senden.
+
+[Beispiel-Datei laden...](Samples/status-9430-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+
+## XML-Darstellung
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>SHOPIFY</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>21-09-2021T18:35:20</DATE>
+      <PCNAME />
+      <USERNAME />
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+   </METADATA>
+   <AUFTRAGLISTE>
+      <AUFTRAG>
+         <BESTELLNUMMER>NW-3930</BESTELLNUMMER>
+         <SHOP>
+            <TRACKING>38110844104</TRACKING>
+            <CARRIER>TNT</CARRIER>
+         </SHOP>
+      </AUFTRAG>
+   </AUFTRAGLISTE>
+</EULANDA>
+```
+
+## Fieldnamen
+
+## AUFTRAGLISTE.AUFTRAG
+
+| Feldname      | Beschreibung                                                 | Standard | Typ  | Muss |
+| ------------- | ------------------------------------------------------------ | -------- | ---- | ---- |
+| BESTELLNUMMER | Bestellnummer des Fremdsystems welches zur der Referenzierung dient. Diese wird in der Warenwirtschaft als Kunden-Bestellnummer geführt. Wird die Statusmeldung vom Drop-Shipping-System abgesetzt, so muss diese identisch mit der zuvor ausgelösten Bestellung sein. |          | Text | ja   |
+
+
+
+
+## Fieldnamen
+
+## AUFTRAGLISTE.AUFTRAG.SHOP
+
+| Feldname | Beschreibung                                                 | Standard | Typ          | Muss |
+| -------- | ------------------------------------------------------------ | -------- | ------------ | ---- |
+| TRACKING | Das Feld enthält normalerweise eine Trackingnummer pro Lieferung. Besteht die Sendung aus mehreren Paketen, so können die Trackingnummern durch CRLF (hex 0D0A) getrennt jede in einer eigenen Zeile stehen. Das Feld ist dynamisch und hat keine Größenbegrenzung. |          | Text         | ja   |
+| CARRIER  | Die Carrier wie zum Beispiel GLS, TNT, DHL usw. mit dem das Paket versendet wurde. Fehlt der Versender in den Stammdaten der Warenwirtschaft, so wird diese automatisch angelegt. Ausgehende E-Mails können über ein Template hinterlegt werden, bei bekannte Carriern wird die Sendungsverfolgung als Link versehen. |          | Text max: 10 | ja   |
 

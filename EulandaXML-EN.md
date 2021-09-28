@@ -1392,7 +1392,7 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 | **LADRESSEID.ALIAS** | Contains the key for the delivery address reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ADRESSE** node. The shipping address must be specified only if it is different from the billing address. If it is specified, the LADRESSEID.ALIAS must point to the dummy address record of the delivery address in the ADRESSE node - i.e. have the same content as the ID.ALIAS field of the delivery address there. Since the delivery address in the root must be empty, the delivery address fields LNAME1, LSTRASSE etc. must be filled in any case if the delivery address is different. |            | Text          | (yes)     |
 | **ZIELID.ALIAS**     | Contains the key field for the payment term. Here the internally by EULANDA used name of the payment condition can be used. But also a new unknown name can be used here. The import would then first create a corresponding payment condition in the master data and reference it with the address. Common names would be SHOP.PAID, SHOP.PREPAID, SHOP.PAYPAL etc. |            | Text max: 100 | yes       |
 | BESTELLDATUM         | The date of the order is usually assigned by the user in a store system. This is usually the same date as the DATUM field. |            | DateTime      | yes       |
-| BESTELLNUMMER        | Order number of the external system used for referencing. This is managed in the merchandise management system as the customer order number. |            | Text          | yes       |
+| BESTELLNUMMER        | Order number of the external system used for referencing. This is managed in the merchandise management system as the customer order number. |            | Text max: 30  | yes       |
 | BRUTTOFLG            | This field indicates whether the sales price **VK** is a price including VAT. In a B2C order, this is usually the case. In a B2C online store, the prices are usually stated including VAT. The shopping cart is added and from the sum the VAT is calculated and indicated. There is only rounding. In order to be able to represent this in the merchandise management, these identical prices must be transferred in such a case and this is indicated with the BRUTTOFLG. |            | Boolean       | yes       |
 | DATUM                | Date and time of the order creation in the external system.  |            | DateTime      | yes       |
 | LAND                 | The country of the address is indicated with the two-digit ISO abbreviation. So FR for France, DE for Germany, etc. Internally, the merchandise management system can also work with the country abbreviations from the motor vehicle sector. In this case, Germany would be D instead of DE. However, only the two-digit ISO abbreviation may be used in the interface. The conversion to the internally used format is done automatically. |            | Text max: 6   | yes       |
@@ -1436,3 +1436,58 @@ These minimal fields of the order item are sufficient if the article master is k
 | BASIS               | Base price of the item, this is the purchase price incl. special conditions that have led to this order. Often it is the same as the purchase price of the item master. The base price can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2    | (no)      |
 | VKRAB               | The discounted selling price of this item based on one piece. The VKRAB can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2    | yes       |
 | VKVRAB              | The sales price of the item without discount. If the order BRUTTOFLG is set to 1, all prices of the item must be inclusive of VAT, otherwise without VAT. This field is needed to show the discount in an invoice later. |          | Float 18.2    | yes       |
+
+# Status message
+
+Via a status message the carrier and the tracking number can be transmitted to the order entry system like for example a store system after a parcel shipment. Normally, status messages are exported from EULANDA® in this way as an XML file. The information is then transferred in the second step to a store system like nopCommerce.
+
+But it is also possible that a wholesaler drop-ships and sends the ordered goods directly to the end user and sends a status message to EULANDA®. In this case EULANDA® imports the XML file and can then, depending on the stored workflow, book an order, create a delivery and generate an invoice. This can also be sent directly to the end user by e-mail via the interface.
+
+[Load sample...](Samples/status-9430-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+
+## XML representation
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>SHOPIFY</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>21-09-2021T18:35:20</DATE>
+      <PCNAME />
+      <USERNAME />
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+   </METADATA>
+   <AUFTRAGLISTE>
+      <AUFTRAG>
+         <BESTELLNUMMER>NW-3930</BESTELLNUMMER>
+         <SHOP>
+            <TRACKING>38110844104</TRACKING>
+            <CARRIER>TNT</CARRIER>
+         </SHOP>
+      </AUFTRAG>
+   </AUFTRAGLISTE>
+</EULANDA>
+```
+
+## Field names
+## AUFTRAGLISTE.AUFTRAG
+| Feld name     | Description                                                  | Standard | Type | Mandatory |
+| ------------- | ------------------------------------------------------------ | -------- | ---- | --------- |
+| BESTELLNUMMER | Order number of the external system used for referencing. This is managed in the merchandise management system as the customer order number. If the status message is sent by the drop-shipping system, it must be identical to the previously triggered order. |          | Text | ja        |
+
+
+
+## Field names
+
+## AUFTRAGLISTE.AUFTRAG.SHOP
+
+| Feld name | Description                                                  | Standard | Type         | Mandatory |
+| --------- | ------------------------------------------------------------ | -------- | ------------ | --------- |
+| TRACKING  | The field normally contains one tracking number per shipment. If the shipment consists of multiple packages, the tracking numbers can be separated by CRLF (hex 0D0A) each in a separate line. The field is dynamic and has no size limit. |          | Text         | ja        |
+| CARRIER   | The carrier such as GLS, TNT, DHL, etc. with which the package was shipped. If the shipper is missing in the master data of the ERP, it will be created automatically. Outgoing e-mails can be stored via a template, for known carriers the shipment tracking is provided as a link. |          | Text max: 10 | ja        |
+
