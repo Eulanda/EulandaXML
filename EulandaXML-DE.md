@@ -601,7 +601,7 @@ Zusätzlich kann der Artikelstamm die Kataloge (= Merkmale) und deren Zuordnung 
 
 Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuordnung i.d.R. nicht erforderlich. Umgekehrt aber, wenn EULANDA Artikel-Daten an einen Shop sendet, sind diese existenziell für die Darstellung im Shop-System.
 
-[Beispiel-Datei laden...](Samples\product-16FC10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+[Beispiel-Datei laden...](Samples/product-16FC10E5-E444-4CC9-A14C-743F35BC47CD.xml)
 
 ## XML-Darstellung
 
