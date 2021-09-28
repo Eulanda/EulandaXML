@@ -599,6 +599,8 @@ In addition, the article master can contain the catalogs (= properties) and thei
 
 If articles are to be transferred from the Shop to an EULANDA, then the catalog assignment is not necessary as a rule. Conversely however, if EULANDA sends article data to a Shop, these are existential for the representation in the Shop system.
 
+[Load sample...](Samples\product-16FC10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+
 ## XML representation
 
 
