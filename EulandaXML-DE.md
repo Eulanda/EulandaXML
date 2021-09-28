@@ -1022,6 +1022,7 @@ Die Lagerzahlen können mit dem Stammdatensatz zusammen übergeben werden. Zusä
 Preisänderungen können in einer eigenen Datei mit dem Namen **price\*.xml** übertragen werden. Diese können zum Beispiel an ein Shopsystem exportiert werden, oder von einem Großhandel entgegengenommen werden.
 
 Wird die Preisänderungs-Datei exportiert muss diese in den **\outbox\pending**-Ordner ausgegeben werden. Wird diese von einem Großhandel eingespielt, entsprechend in den **\inbox\pending**-Ordner.
+[Beispiel laden...](Samples/price-52D977FD-002C-4494-AE4F-D41C52468BEB.xml)
 
 ## XML-Darstellung
 
@@ -1146,6 +1147,7 @@ Der folgende Abschnitt enthält zwei Adressen. Die erste ist eine vollständige 
 ## XML-Datei einer order\*.xml
 
 Die folgende Datei enthält einen vollständigen Auftrag inkl. der Stammdaten in einer einzigen XML-Datei. Innerhalb der XML-Datei werden die Stammdaten über ein ID-System referenziert.
+[Beispiel laden...](Samples/order-3930-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
 
 ```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
