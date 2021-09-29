@@ -1,4 +1,4 @@
-# EULANDA XML-Schnittstelle
+# Inhaltsverzeichnis
 
 - [EULANDA XML-Schnittstelle](#eulanda-xml-schnittstelle)
 - [Szenarien der Anbindung](#szenarien-der-anbindung)
@@ -76,7 +76,9 @@
   * [Fieldnamen](#fieldnamen-1)
   * [AUFTRAGLISTE.AUFTRAG.SHOP](#auftraglisteauftragshop)
 
-Dieses Dokument ist auch in [englischer Sprache[](EulandaXML-EN.md)] verfügbar - bei Fragen wenden Sie sich bitte an: 
+# EULANDA XML-Schnittstelle
+
+Dieses Dokument ist auch in [englischer Sprache](EulandaXML-EN.md) verfügbar - bei Fragen wenden Sie sich bitte an: 
 
 ```
 Christian Niedergesäß

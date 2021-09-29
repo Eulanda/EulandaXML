@@ -1,4 +1,4 @@
-# EULANDA XML Interface
+# Table of contents
 
 - [EULANDA XML Interface](#eulanda-xml-interface)
 - [Scenarios of the connection](#scenarios-of-the-connection)
@@ -75,6 +75,8 @@
   * [AUFTRAGLISTE.AUFTRAG](#auftraglisteauftrag-1)
   * [Field names](#field-names-9)
   * [AUFTRAGLISTE.AUFTRAG.SHOP](#auftraglisteauftragshop)
+
+# EULANDA XML Interface
 
 This document is also available in [German](EulandaXML-DE.md) - if you have any questions, please contact:
 
