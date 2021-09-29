@@ -1307,7 +1307,7 @@ The following section contains two addresses. The first one is a full address, t
 
 The following file contains a complete order including the master data in a single XML file. Within the XML file the master data is referenced by an ID system.
 
-[Load sample...](Samples/order-3930-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
+[Load sample...](Samples/order-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
 
 ```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
@@ -1597,7 +1597,7 @@ Via a status message the carrier and the tracking number can be transmitted to t
 
 But it is also possible that a wholesaler drop-ships and sends the ordered goods directly to the end user and sends a status message to EULANDA®. In this case EULANDA® imports the XML file and can then, depending on the stored workflow, book an order, create a delivery and generate an invoice. This can also be sent directly to the end user by e-mail via the interface.
 
-[Load sample...](Samples/status-9430-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+[Load sample...](Samples/status-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
 
 ## XML representation
 

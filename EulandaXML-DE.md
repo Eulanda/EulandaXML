@@ -1304,7 +1304,7 @@ Der folgende Abschnitt enthält zwei Adressen. Die erste ist eine vollständige 
 
 Die folgende Datei enthält einen vollständigen Auftrag inkl. der Stammdaten in einer einzigen XML-Datei. Innerhalb der XML-Datei werden die Stammdaten über ein ID-System referenziert.
 
-[Beispiel laden...](Samples/order-3930-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
+[Beispiel laden...](Samples/order-32FC10E5-E544-4CC9-A14C-743F35BC47CD.xml)
 
 ```xml
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
@@ -1594,7 +1594,7 @@ Diese minimalen Felder der Auftragsposition genügen, wenn der Artikelstamm beka
 
 Es ist aber auch möglich, dass ein Großhandel Drop-Shipping durchführt und die bestellte Ware direkt an den Endverbraucher sendet und an EULANDA® eine Status-Meldung versendet. In diesem Fall importiert EULANDA® die XML-Datei und kann dann anschließend je nach hinterlegtem Workflow, einen Auftrag buchen, eine Lieferung erzeugen und eine  Rechnung erzeugen. Diese lässt sich über die Schnittstelle auch direkt per E-Mail an den Endverbraucher senden.
 
-[Beispiel-Datei laden...](Samples/status-9430-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+[Beispiel laden...](Samples/status-11FD10E5-E444-4CC9-A14C-743F35BC47CD.xml)
 
 ## XML-Darstellung
 
