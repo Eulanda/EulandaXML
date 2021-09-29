@@ -49,29 +49,34 @@
   * [XML-Darstellung](#xml-darstellung-3)
   * [Feldnamen](#feldnamen-5)
   * [ARTIKELLISTE.ARTIKEL](#artikellisteartikel-1)
-- [Adress-Stammdaten](#adress-stammdaten)
+- [Lagerbestand](#lagerbestand)
   * [XML-Darstellung](#xml-darstellung-4)
   * [Feldnamen](#feldnamen-6)
+  * [ARTIKELLISTE.ARTIKEL](#artikellisteartikel-2)
+  * [Feldnamen](#feldnamen-7)
+  * [ARTIKELLISTE.ARTIKEL.LAGER](#artikellisteartikellager-1)
+- [Adress-Stammdaten](#adress-stammdaten)
+  * [XML-Darstellung](#xml-darstellung-5)
+  * [Feldnamen](#feldnamen-8)
   * [ADRESSELISTE.ADRESSE](#adresselisteadresse)
 - [Auftrag mit Artikel-Stammdaten](#auftrag-mit-artikel-stammdaten)
   * [XML-Datei einer order\*.xml](#xml-datei-einer-order--xml)
 - [Auftrag ohne Artikel-Stammdaten](#auftrag-ohne-artikel-stammdaten)
   * [XML-Datei einer order\*.xml](#xml-datei-einer-order--xml-1)
-  * [Feldnamen](#feldnamen-7)
+  * [Feldnamen](#feldnamen-9)
   * [AUFTRAGLISTE.AUFTRAG](#auftraglisteauftrag)
   * [Feldname](#feldname)
   * [AUFTRAGLISTE.AUFTRAG.SHOP.SHIPPINGINFO](#auftraglisteauftragshopshippinginfo)
   * [Feldname](#feldname-1)
   * [AUFTRAGLISTE.AUFTRAG.AUFTRAGPOSLISTE.AUFTRAGPOS](#auftraglisteauftragauftragposlisteauftragpos)
 - [Status-Mitteilung](#status-mitteilung)
-  * [XML-Darstellung](#xml-darstellung-5)
+  * [XML-Darstellung](#xml-darstellung-6)
   * [Fieldnamen](#fieldnamen)
   * [AUFTRAGLISTE.AUFTRAG](#auftraglisteauftrag-1)
   * [Fieldnamen](#fieldnamen-1)
   * [AUFTRAGLISTE.AUFTRAG.SHOP](#auftraglisteauftragshop)
 
-
-Dieses Dokument ist auch in [englischer Sprache](EulandaXML-EN.md) verfügbar - bei Fragen wenden Sie sich bitte an: 
+Dieses Dokument ist auch in [englischer Sprache[](EulandaXML-EN.md)] verfügbar - bei Fragen wenden Sie sich bitte an: 
 
 ```
 Christian Niedergesäß
@@ -1160,6 +1165,85 @@ Wird die Preisänderungs-Datei exportiert muss diese in den **\outbox\pending**-
 | VK           | Der Verkaufspreis kann entweder mit oder ohne MwSt. angegeben werden. So wie der Preis angegeben wird, wird er in die Datenbank der Warenwirtschaft übernommen. Damit das System intern korrekt rechnen kann ist das Zusatzfeld BRUTTOFLG in jedem Fall erforderlich. Der VK ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | ja     |
 | VKNETTO      | Unabhängig vom in der Datenbank gespeicherten VK lässt sich auch ein reiner VK ohne MwSt. ausgeben. Dies ist kein Datenbankfeld, sondern ein berechnetes Feld. Es kann nicht in die Warenwirtschaft importiert werden, sondern dient der einfachen Weiterverarbeitung von Fremdsystemen. Es ist jedoch üblich, dieses Feld generell mit anzugeben. Der VKNETTO ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | (nein) |
 | VKBRUTTO     | Unabhängig vom in der Datenbank gespeicherten VK lässt sich auch ein reiner VK mit MwSt. ausgeben. Dies ist kein Datenbankfeld, sondern ein berechnetes Feld. Es kann nicht in die Warenwirtschaft importiert werden, sondern dient der einfachen Weiterverarbeitung von Fremdsystemen. Es ist jedoch üblich, dieses Feld generell mit anzugeben. Der VKBRUTTO ist zweistellig (Cent-genau). |          | FLOAT 18.2                           | (nein) |
+
+# Lagerbestand
+
+Der Lagerbestand kann über einen eigenen Datensatz ausgetauscht werden. Da dieser dann kompakt und ohne Merkmalbaum ausgegeben wird, ist die Verarbeitung deutlich schneller.
+
+Innerhalb der Warenwirtschaft werden Ereignisse genutzt, so dass die Lagerbestands-Änderungen über eine Warteschlange verarbeitet werden. Dies erhöht bei großer Artikelanzahl (> 100.000 ) nocheinmal deutlich die Verarbeitungsgeschwindigkeit. 
+
+Zusätzlich kann angeben werden ob der Warenbestand des eigenen Lagers oder der informative Lagerbestand eines Lieferanten relevant sein soll.
+
+Wird nicht mit einem eigenen Lagerbestand gearbeitet, so kann die Schnittstelle so konfiguriert werden, das ein fiktiver Lagerbestand exportiert wird.
+
+[Beispiel-Datei laden...](Samples/stock-FEDCE888-5AB9-4934-8597-3969572D92B4.xml)
+
+## XML-Darstellung
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>NOPCOMMERCE</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>2021-09-29T11:02:40</DATE>
+      <PCNAME>ASTRA7276</PCNAME>
+      <USERNAME>ADMINISTRATOR</USERNAME>
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+      <APPLICATION>C:\all\Test\Eul.exe</APPLICATION>
+      <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
+      <ALIAS>EULANDA Software GmbH</ALIAS>
+      <CLIENT>Eulanda</CLIENT>
+      <PARTNER>nopCommerce</PARTNER>
+   </METADATA>
+   <MERKMALBAUM>
+      <ARTIKEL />
+   </MERKMALBAUM>
+   <RABATTLISTE />
+   <ARTIKELLISTE>
+      <ARTIKEL>
+         <ID.ALIAS>3000250531</ID.ALIAS>
+         <LAGER>
+            <BESTANDVERFUEGBAR>24.00</BESTANDVERFUEGBAR>
+            <BESTANDVERFUEGBAR1>18.00</BESTANDVERFUEGBAR1>
+            <BESTANDVERFUEGBAR2>58.00</BESTANDVERFUEGBAR2>
+         </LAGER>
+      </ARTIKEL>
+      <ARTIKEL>
+         <ID.ALIAS>3000280269</ID.ALIAS>
+         <LAGER>
+            <BESTANDVERFUEGBAR>4.00</BESTANDVERFUEGBAR>
+            <BESTANDVERFUEGBAR1>4.00</BESTANDVERFUEGBAR1>
+            <BESTANDVERFUEGBAR2>10.00</BESTANDVERFUEGBAR2>
+         </LAGER>
+      </ARTIKEL>
+   </ARTIKELLISTE>
+   <ADRESSELISTE />
+   <AUFTRAGLISTE />
+</EULANDA>
+```
+
+## Feldnamen
+
+## ARTIKELLISTE.ARTIKEL
+
+| Feldname     | Beschreibung                                                 | Standard | Typ                                  | Muss |
+| ------------ | ------------------------------------------------------------ | -------- | ------------------------------------ | ---- |
+| **ID.ALIAS** | Das Schlüsselfeld **ID.ALIAS** ist der Platzhalter, für den eindeutigen Schlüssel. Beim Artikelstamm ist dies die Artikelnummer. Da über diesen Datensatz keine Artikel angelegt werden, ist die Angabe des Feldes **ARTNUMMER** nicht notwendig. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | ja   |
+
+## Feldnamen
+
+## ARTIKELLISTE.ARTIKEL.LAGER
+
+| Feldname           | Beschreibung                                                 | Standard | Typ        | Muss |
+| ------------------ | ------------------------------------------------------------ | -------- | ---------- | ---- |
+| BESTANDVERFUEGBAR  | Gibt die absolute Lagerverfügbarkeit an. Dies ist das übliche Feld zur Übergabe der Lagerverfügbarkeit. |          | Float 10.2 | ja   |
+| BESTANDVERFUEGBAR1 | Gibt die Lagerverfügbarkeit aus BESTANDVERFUEGBAR an, jedoch abzüglich Reservierungen durch Verkaufsaufträge. Dieses Feld wird in der Regel nicht übermittelt. |          | Float 10.2 | nein |
+| BESTANDVERFUEGBAR2 | Gibt die Lagerverfügbarkeit aus BESTANDVERFUEGBAR1 an, jedoch zuzüglich getätigter Einkaufsbestellungen. Dieses Feld wird in der Regel nicht übermittelt. |          | Float 10.2 | nein |
 
 # Adress-Stammdaten
 

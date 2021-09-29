@@ -49,8 +49,14 @@
   * [XML representation](#xml-representation-3)
   * [Field names](#field-names-5)
   * [ARTIKELLISTE.ARTIKEL](#artikellisteartikel-1)
-- [Address master data](#address-master-data)
+- [Stock](#stock)
   * [XML representation](#xml-representation-4)
+  * [Feld names](#feld-names)
+  * [ARTIKELLISTE.ARTIKEL](#artikellisteartikel-2)
+  * [Feld names](#feld-names-1)
+  * [ARTIKELLISTE.ARTIKEL.LAGER](#artikellisteartikellager-1)
+- [Address master data](#address-master-data)
+  * [XML representation](#xml-representation-5)
   * [Field names](#field-names-6)
   * [ADRESSELISTE.ADRESSE](#adresselisteadresse)
 - [Order with article master data](#order-with-article-master-data)
@@ -64,14 +70,13 @@
   * [Field name](#field-name-1)
   * [AUFTRAGLISTE.AUFTRAG.AUFTRAGPOSLISTE.AUFTRAGPOS](#auftraglisteauftragauftragposlisteauftragpos)
 - [Status message](#status-message)
-  * [XML representation](#xml-representation-5)
+  * [XML representation](#xml-representation-6)
   * [Field names](#field-names-8)
   * [AUFTRAGLISTE.AUFTRAG](#auftraglisteauftrag-1)
   * [Field names](#field-names-9)
   * [AUFTRAGLISTE.AUFTRAG.SHOP](#auftraglisteauftragshop)
 
-
-This document is also available in German - if you have any questions, please contact:
+This document is also available in [German](EulandaXML-DE.md) - if you have any questions, please contact:
 
 ```
 Christian Niedergesaess
@@ -1164,6 +1169,84 @@ If the price change file is exported, it must be output to the **\outbox\pending
 | VKNETTO      | Regardless of the sales price stored in the database, it is also possible to output a pure sales price without VAT. This is not a database field, but a calculated field. It cannot be imported into the merchandise management system, but is used for simple further processing by external systems. However, it is common to specify this field in general. The VKNETTO is two-digit (cent-exact). |          | FLOAT 18.2                           | (no)      |
 | VKBRUTTO     | Regardless of the sales price stored in the database, a pure sales price with VAT can also be output. This is not a database field, but a calculated field. It cannot be imported into the merchandise management system, but is used for simple further processing by external systems. However, it is common to specify this field in general. The VKBRUTTO has two digits (to the nearest cent). |          | FLOAT 18.2                           | (no)      |
 
+# Stock
+
+The warehouse stock can be exchanged via a separate data record. Since this is then output compactly and without a feature tree, processing is significantly faster.
+
+Events are used within the merchandise management system so that the stock changes are processed via a queue. This increases the processing speed for a large number of articles (> 100,000). 
+
+In addition, you can specify whether the inventory of your own warehouse or the informative inventory of a supplier should be relevant.
+
+If the user does not work with his own stock, the interface can be configured to export a fictitious stock.
+
+[Load sample...](Samples/stock-FEDCE888-5AB9-4934-8597-3969572D92B4.xml)
+
+## XML representation
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<EULANDA>
+   <METADATA>
+      <VERSION>1.1</VERSION>
+      <GENERATOR>NOPCOMMERCE</GENERATOR>
+      <DATEFORMAT>ISO8601</DATEFORMAT>
+      <FLOATFORMAT>US</FLOATFORMAT>
+      <COUNTRYFORMAT>ISO2</COUNTRYFORMAT>
+      <FIELDNAMES>NATIVE</FIELDNAMES>
+      <DATE>2021-09-29T11:02:40</DATE>
+      <PCNAME>ASTRA7276</PCNAME>
+      <USERNAME>ADMINISTRATOR</USERNAME>
+      <DATABASEVERSION>5.63</DATABASEVERSION>
+      <APPLICATION>C:\all\Test\Eul.exe</APPLICATION>
+      <UDL>Eulanda_1 EULANDA Software GmbH.udl</UDL>
+      <ALIAS>EULANDA Software GmbH</ALIAS>
+      <CLIENT>Eulanda</CLIENT>
+      <PARTNER>nopCommerce</PARTNER>
+   </METADATA>
+   <MERKMALBAUM>
+      <ARTIKEL />
+   </MERKMALBAUM>
+   <RABATTLISTE />
+   <ARTIKELLISTE>
+      <ARTIKEL>
+         <ID.ALIAS>3000250531</ID.ALIAS>
+         <LAGER>
+            <BESTANDVERFUEGBAR>24.00</BESTANDVERFUEGBAR>
+            <BESTANDVERFUEGBAR1>18.00</BESTANDVERFUEGBAR1>
+            <BESTANDVERFUEGBAR2>58.00</BESTANDVERFUEGBAR2>
+         </LAGER>
+      </ARTIKEL>
+      <ARTIKEL>
+         <ID.ALIAS>3000280269</ID.ALIAS>
+         <LAGER>
+            <BESTANDVERFUEGBAR>4.00</BESTANDVERFUEGBAR>
+            <BESTANDVERFUEGBAR1>4.00</BESTANDVERFUEGBAR1>
+            <BESTANDVERFUEGBAR2>10.00</BESTANDVERFUEGBAR2>
+         </LAGER>
+      </ARTIKEL>
+   </ARTIKELLISTE>
+   <ADRESSELISTE />
+   <AUFTRAGLISTE />
+</EULANDA>
+```
+
+## Feld names
+
+## ARTIKELLISTE.ARTIKEL
+
+| Feld name    | Description                                                  | Standard | Type                                 | Mandatory |
+| ------------ | ------------------------------------------------------------ | -------- | ------------------------------------ | --------- |
+| **ID.ALIAS** | The key field **ID.ALIAS** is the placeholder for the unique key. In the case of the article master, this is the article number. Since no articles are created via this data record, the specification of the field **ARTNUMBER** is not necessary. |          | Text max: 80; SPECIAL-UPCASE; UNIQUE | yes       |
+
+## Feld names
+
+## ARTIKELLISTE.ARTIKEL.LAGER
+
+| Feld name          | Description                                                  | Standard | Type       | Mandatory |
+| ------------------ | ------------------------------------------------------------ | -------- | ---------- | --------- |
+| BESTANDVERFUEGBAR  | Indicates the absolute stock availability. This is the usual field for passing the stock availability. |          | Float 10.2 | yes       |
+| BESTANDVERFUEGBAR1 | Indicates the stock availability from BESTANDVERFUEGBAR, but less reservations due to sales orders. This field is usually not transmitted. |          | Float 10.2 | no        |
+| BESTANDVERFUEGBAR2 | Indicates the stock availability from BESTANDVERFUEGBAR1, but plus purchase orders placed. This field is usually not transmitted. |          | Float 10.2 | no        |
 
 # Address master data
 
@@ -1486,7 +1569,7 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 | SHOPTEL              | The phone number of the invoice recipient. This phone number has priority over any phone number from the address master data. |            | Text max: 30  | no        |
 | STRASSE              | The field contains the street to the address incl. the house number. The house number can be separated from the street name with the usual special characters. For Italy, for example, this would be a comma. |            | Text max: 40  | yes       |
 
-## Field name
+## Field names
 
 ## AUFTRAGLISTE.AUFTRAG.SHOP.SHIPPINGINFO
 
@@ -1494,7 +1577,7 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 | --------- | ------------------------------------------- | -------- | ---------- | --------- |
 | COST      | Includes the shipping cost of the shipment. |          | Float 18.2 | no        |
 
-## Field name
+## Field names
 
 ## AUFTRAGLISTE.AUFTRAG.AUFTRAGPOSLISTE.AUFTRAGPOS
 
