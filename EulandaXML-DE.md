@@ -76,6 +76,8 @@
   * [Fieldnamen](#fieldnamen-1)
   * [AUFTRAGLISTE.AUFTRAG.SHOP](#auftraglisteauftragshop)
 
+------
+
 # EULANDA XML-Schnittstelle
 
 Dieses Dokument ist auch in [englischer Sprache](EulandaXML-EN.md) verfügbar - bei Fragen wenden Sie sich bitte an: 
@@ -659,12 +661,12 @@ Grohe
 | Feldname     | Beschreibung                                                 | Standard | Typ            | Muss   |
 | ------------ | ------------------------------------------------------------ | -------- | -------------- | ------ |
 | BESCHREIBUNG | Verschiedene Shop-Systeme bzw. Zielsystem erlauben es, einen Katalog mit einem beschreibenden Text oder Bild zu versehen. Der Text der Beschreibung kann, wie im Abschnitt **Sprachen** beschrieben, auch in Fremdsprachen angegeben werden. Zusätzlich kann er Übersetzungen für das Feld **NAME** enthalten. |          | Text           | nein   |
-| BILD         | Jedem Merkmal kann ein Bild zugeordnet werden. Dieses wird inkl. der Beschreibung bei vielen Shop-Systemen in der Katalogübersicht angezeigt. Wenn EULANDA das initiierende System ist, wird hier nur der reine Bildname angegeben, zum Beispiel **meinbild.jpg**. Bilder liegen dann im lokalen DMS, im Normalfall in etwa **\DmsRoot\DMS\Artikel\MERKMALE**. Der Ordner kann im lokalen System oder auf einem FTP-Server liegen. Wird die Artikel-Übergabe jedoch von einem Fremdsystem initiiert und kann nicht auf den lokalen Ordner oder einen unterstützten FTP-Ordner zugreifen, so kann die Bildangabe als URL angegeben werden. Das Bild wird dann von der Schnittstelle automatisch heruntergeladen und in das lokale DMS bzw. die FTP-Struktur kopiert. Ein Beispiel für die Angabe einer URL wäre dann: "**https://www.meinserver.de/subfolder/meinbild.jpg"**. |          | FILE / URL     | nein   |
+| BILD         | Jedem Merkmal kann ein Bild zugeordnet werden. Dieses wird inkl. der Beschreibung bei vielen Shop-Systemen in der Katalogübersicht angezeigt. Wenn EULANDA das initiierende System ist, wird hier nur der reine Bildname angegeben, zum Beispiel **meinbild.jpg**. Bilder liegen dann im lokalen DMS, im Normalfall in etwa **\DmsRoot\DMS\Artikel\MERKMALE**. Der Ordner kann im lokalen System oder auf einem FTP-Server liegen. Wird die Artikel-Übergabe jedoch von einem Fremdsystem initiiert und kann nicht auf den lokalen Ordner oder einen unterstützten FTP-Ordner zugreifen, so kann die Bildangabe als URL angegeben werden. Das Bild wird dann von der Schnittstelle automatisch heruntergeladen und in das lokale DMS bzw. die FTP-Struktur kopiert. |          | FILE / URL     | nein   |
 | COLOR        | Enthält einen RGB-Wert als Dezimalzahl. Hierdurch kann die Farbe eines Merkmals gesetzt werden. Dieses Feld wird innerhalb von EULANDA ausgewertet um Merkmale gesondert hervorzuheben. Es spricht jedoch nichts dagegen, dass ein Zielsystem diesen Wert auswertet. Für die Übergabe an das Shop-System nopCommerce gibt es hier keine Verwendung, da dies dort keine sinnvolle Abbildung dafür gibt. |          | Integer 32-Bit | nein   |
 | DISPLAYORDER | Die Displayorder wird zur Sortierung der Anzeigereihenfolge von Merkmalen benutzt. Wird der Wert nicht angegeben, dann verwenden Shop-Systeme bzw. Zielsysteme oft die Erstellungsreihenfolge, aber auch eine alphabetische Ausgabe wird von einigen benutzt. Über DISPLAYORDER hat man nun Einfluss auf die Reihenfolge der Anzeige, sofern das Zielsystem diese unterstützt bei nopCommerce ist dies der Fall. | 0        | Integer 0-255  | nein   |
 | MERKMALTYP   | Gibt an um welchen Merkmaltyp es sich handelt. 0=Ordner, 1=Endmerkmale, 2=SQL-Merkmale |          | Integer 8-Bit  | ja     |
-| NAME         | Der Name des Ordners bzw. des End-Elements. Der Name wird normalerweise in der Landessprache angegeben z.B. in Deutsch. Werden Fremdsprachen benötigt, so werden die Übersetzungen im Feld BECHREIBUNG abgelegt. Das Vorgehen hierbei ist im Abschnitt **Sprachen** beschrieben. Das Namensfeld ist gleichzeitig das Standard-Feld, wenn dies vom Zielsystem unterstützt wird. Bei Anbindung von nopCommerce als Shop-System ist dies möglich. Fehlt dort eine notwendige Übersetzung, so wird der Inhalt des Standardfelds verwendet. Aus diesem Grund kann es sinnvoll sein, eben hier nicht in Landessprache den Text anzugeben, sondern zum Beispiel in Englisch. |          | Text           | ja     |
-| PFAD         | Ist eine interne Angabe, ab welchem Pfad der Merkmalbaum für den Artikel-Datenaustausch benutzt werden soll. Beim Importieren in EULANDA wird der Baum relativ zu dieser Angabe gespeichert. Der Standardpfad ist "\Shop" und sollte aus Kompatibilität angegeben werden. | \Shop    | Text           | (nein) |
+| NAME         | Der Name des Ordners bzw. des End-Elements. Der Name wird normalerweise in der Landessprache angegeben z.B. in Deutsch. Werden Fremdsprachen benötigt, so werden die Übersetzungen im Feld BECHREIBUNG abgelegt. Das Vorgehen hierbei ist im Abschnitt **Sprachen** beschrieben. Das Namensfeld ist gleichzeitig das Standard-Feld, wenn dies vom Zielsystem unterstützt wird. Bei Anbindung von nopCommerce als Shop-System ist dies möglich. Fehlt dort eine notwendige Übersetzung, so wird der Inhalt des Standardfelds verwendet. Aus diesem Grund kann es sinnvoll sein, eben hier nicht in Landessprache den Text anzugeben, sondern zum Beispiel in Englisch. |          | Text max: 100  | ja     |
+| PFAD         | Ist eine interne Angabe, ab welchem Pfad der Merkmalbaum für den Artikel-Datenaustausch benutzt werden soll. Beim Importieren in EULANDA wird der Baum relativ zu dieser Angabe gespeichert. Der Standardpfad ist "\Shop" und sollte aus Kompatibilität angegeben werden. | \Shop    | Text max: 8000 | (nein) |
 | PUBLISHED    | Hierüber kann angegeben werden, ob das Einzelmerkmal im Zielsystem angezeigt werden soll, oder nicht. Die Angabe wird normal von EULANDA erzeugt. Wird die Übergabe von einem Fremdsystem initiiert ist die Angabe normalerweise nicht notwendig. | 1        | Boolean 0/1    | nein   |
 | SQLBEDINGUNG | Die EULANDA Warenwirtschaft unterstützt neben gesetzten Einzelmerkmalen auch **intelligente** Merkmale. Dies sind SQL-Befehle, die mit der Datenbank der Warenwirtschaft interagieren. Hier kann man zum Beispiel ein Merkmal "formulieren", dass alle Artikel auswählt, die in einem bestimmten Zeitraum eine Lagerbewegung hatten. Die Angabe spielt im Austausch mit Fremdsystem eigentlich keine Rolle, aber über die Schnittstelle lassen sich auch zwei EULANDA Warenwirtschaften koppeln, um ein Mehrmandaten- oder Dropshipping-System zu realisieren. |          | Text           | nein   |
 | TOP          | Über diese Angabe kann gesteuert werden, ob eine Kategorie besonders präsentiert werden soll. Zum Beispiel auf der Homepage eines Shop-Systems. Die Angabe wird normal von EULANDA erzeugt. Wird die Übergabe von einem Fremdsystem initiiert ist die Angabe normalerweise nicht notwendig. | 0        | Boolean 0/1    | nein   |
@@ -679,7 +681,7 @@ Zusätzlich kann der Artikelstamm die Kataloge (= Merkmale) und deren Zuordnung 
 
 Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuordnung i.d.R. nicht erforderlich. Umgekehrt aber, wenn EULANDA Artikel-Daten an einen Shop sendet, sind diese existenziell für die Darstellung im Shop-System.
 
-[Beispiel-Datei laden...](Samples/product-16FC10E5-E444-4CC9-A14C-743F35BC47CD.xml)
+[Beispiel laden...](Samples/product-16FC10E5-E444-4CC9-A14C-743F35BC47CD.xml)
 
 ## XML-Darstellung
 
@@ -1178,7 +1180,7 @@ Zusätzlich kann angeben werden ob der Warenbestand des eigenen Lagers oder der 
 
 Wird nicht mit einem eigenen Lagerbestand gearbeitet, so kann die Schnittstelle so konfiguriert werden, das ein fiktiver Lagerbestand exportiert wird.
 
-[Beispiel-Datei laden...](Samples/stock-FEDCE888-5AB9-4934-8597-3969572D92B4.xml)
+[Beispiel laden...](Samples/stock-FEDCE888-5AB9-4934-8597-3969572D92B4.xml)
 
 ## XML-Darstellung
 
