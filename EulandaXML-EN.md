@@ -22,6 +22,7 @@
     + [Create a UID in Powershell](#create-a-uid-in-powershell)
     + [Create a UID in VbScript](#create-a-uid-in-vbscript)
   * [MatchSet](#matchset)
+  * [Userfield](#userfield)
 - [Languages](#languages)
 - [References and unique keys](#references-and-unique-keys)
   * [Article references](#article-references)
@@ -304,6 +305,10 @@ _ (underscore)
 = (equal sign)
 @ (AT character as in e-mail addresses)
 ```
+
+## Userfield
+
+User fields already exist in various tables of the database and can be displayed in the screen masks with an alias. It should be noted that these may be used in the target system for a specific task, so that this always requires coordination when used.
 
 # Languages
 
@@ -1037,7 +1042,18 @@ If articles are to be transferred from the Shop to an EULANDA, then the catalog 
 | SHOPEXPORTDATUM     | The last export date of the item if EULANDA is the initiating system. |          | DateTime                             | no        |
 | SHOPFREIGABEFLG     | This a field within the merchandise management, which indicates whether the article may be published. During import the field has less relevance and is used especially for EULANDA to EULANDA transfers to synchronize the article master in dependent systems. | 0        | Boolean                              | no        |
 | SONDERFLG           | Indicates that this is a special offer. In the target system, such as a store system, products with this property can then be marked separately. Such a marking could be a rubber band or a stamp on the product image. The store system must respond accordingly and the interface to the store must also support the field in a suitable manner. | 0        | Boolean                              | no        |
-| ULTRAKURZTEXT       | The Ultrakurtext contains a very compact article description, which is used especially on the slip at POS systems. |          | Text max: 100                        | no        |
+| ULTRAKURZTEXT       | The Ultrakurztext contains a very compact article description, which is used especially on the slip at POS systems. |          | Text max: 100                        | no        |
+| USERD1              | Free user field for a date.                                  |          | DateTime; Userfield                  | no        |
+| USERD2              | Free user field for a date.                                  |          | DateTime; Userfield                  | no        |
+| USERI1              | Free user field for an integer value.                        |          | Integer: Userfield                   | no        |
+| USERI2              | Free user field for an integer value.                        |          | Integer; Userfield                   | no        |
+| USERI3              | Free user field for an integer value.                        |          | Integer; Userfield                   | no        |
+| USERN1              | Free user field for a floating point number.                 |          | Float 18.2; Userfield                | no        |
+| USERN2              | Free user field for a floating point number.                 |          | Float 18.2; Userfield                | no        |
+| USERN3              | Free user field for a floating point number.                 |          | Float 18.6: Userfield                | no        |
+| USERVC1             | Free user field for a string.                                |          | Text max: 50;                        | no        |
+| USERVC2             | Free user field for a string.                                |          | Text max: 50;                        | no        |
+| USERVC3             | Free user field for a string.                                |          | Text max: 100;                       | no        |
 | VERPACKEH           | The packaging unit indicates how many identical parts are contained in a product. This information is only used when printing offers or invoices. | 1        | FLOAT 10.2                           | yes       |
 | VK                  | The sales price can be specified either with or without VAT. The price will be transferred to the inventory management database in the same way as it is entered. So that the system can calculate internally correctly the additional field BRUTTOFLG is necessary in any case. The sales price has two digits (to the nearest cent). |          | FLOAT 18.2                           | yes       |
 | VKNETTO             | Regardless of the sales price stored in the database, it is also possible to output a pure sales price without VAT. This is not a database field, but a calculated field. It cannot be imported into the merchandise management system, but is used for simple further processing by external systems. However, it is common to specify this field in general. The VKNETTO is two-digit (cent-exact). |          | FLOAT 18.2                           | (no)      |
@@ -1544,34 +1560,45 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 
 ## AUFTRAGLISTE.AUFTRAG
 
-| Feld name            | Description                                                  | Standard   | Type          | Mandatory |
-| -------------------- | ------------------------------------------------------------ | ---------- | ------------- | --------- |
-| **ADRESSEID.ALIAS**  | Contains the key for the address reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ADRESSE** node. |            | Text          | yes       |
-| **LADRESSEID.ALIAS** | Contains the key for the delivery address reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ADRESSE** node. The shipping address must be specified only if it is different from the billing address. If it is specified, the LADRESSEID.ALIAS must point to the dummy address record of the delivery address in the ADRESSE node - i.e. have the same content as the ID.ALIAS field of the delivery address there. Since the delivery address in the root must be empty, the delivery address fields LNAME1, LSTRASSE etc. must be filled in any case if the delivery address is different. |            | Text          | (yes)     |
-| **ZIELID.ALIAS**     | Contains the key field for the payment term. Here the internally by EULANDA used name of the payment condition can be used. But also a new unknown name can be used here. The import would then first create a corresponding payment condition in the master data and reference it with the address. Common names would be SHOP.PAID, SHOP.PREPAID, SHOP.PAYPAL etc. |            | Text max: 100 | yes       |
-| BESTELLDATUM         | The date of the order is usually assigned by the user in a store system. This is usually the same date as the DATUM field. |            | DateTime      | yes       |
-| BESTELLNUMMER        | Order number of the external system used for referencing. This is managed in the merchandise management system as the customer order number. |            | Text max: 30  | yes       |
-| BRUTTOFLG            | This field indicates whether the sales price **VK** is a price including VAT. In a B2C order, this is usually the case. In a B2C online store, the prices are usually stated including VAT. The shopping cart is added and from the sum the VAT is calculated and indicated. There is only rounding. In order to be able to represent this in the merchandise management, these identical prices must be transferred in such a case and this is indicated with the BRUTTOFLG. |            | Boolean       | yes       |
-| DATUM                | Date and time of the order creation in the external system.  |            | DateTime      | yes       |
-| LAND                 | The country of the address is indicated with the two-digit ISO abbreviation. So FR for France, DE for Germany, etc. Internally, the merchandise management system can also work with the country abbreviations from the motor vehicle sector. In this case, Germany would be D instead of DE. However, only the two-digit ISO abbreviation may be used in the interface. The conversion to the internally used format is done automatically. |            | Text max: 6   | yes       |
-| LLAND                | The country of the delivery address is indicated with the two-digit ISO abbreviation. So FR for France, DE for Germany, etc. Internally, the merchandise management system can also work with the country abbreviations from the motor vehicle sector. In this case, Germany would be D instead of DE. However, only the two-digit ISO abbreviation may be used in the interface. The conversion to the internally used format is done automatically. |            | Text max: 6   | yes       |
-| LNAME1               | The name range of a delivery address consists of three possible name lines. They can be used freely. Usually, LNAME1 contains the company name. For private persons, the field can also be left blank. The delivery address only needs to be specified if it differs from the billing address. However, if this is specified, LADRESSEID.ALIAS must also be specified. |            | Text max: 40  | (no)      |
-| LNAME2               | The LNAME2 field of the delivery address is usually used for first name and last name. For companies this is then the contact person. |            | Text max: 40  | (no)      |
-| LNAME3               | The LNAME3 field of the delivery address is usually used for special designations; this can be the mailbox, a department or an otherwise important addition. |            | Text max: 40  | (no)      |
-| LSTRASSE             | The field contains the street to the address incl. the house number. The house number can be separated from the street name with the usual special characters. For Italy, for example, this would be a comma. |            | Text max: 40  | yes       |
-| LORT                 | Contains the city name for the delivery address.             |            | Text max: 40  | yes       |
-| LPLZ                 | The field contains the postal code for the delivery address. |            | Text max: 15  | yes       |
-| NAME1                | The name range of an address consists of three possible name lines. They can be used freely. Usually, NAME1 contains the company name. For private persons, the field can also be left blank. |            | Text max: 40  | yes       |
-| NAME2                | The NAME2 field is usually used for first name and last name. For companies, this is then the contact person. |            | Text max: 40  | yes       |
-| NAME3                | The NAME3 field is usually used for special designations; this can be the mailbox, a department, or an otherwise important addition. |            | Text max: 40  | no        |
-| OBJEKT               | An object designation, this can be a construction site or any other term that the customer chooses. As a rule, simply **Onlineshop** is entered there. It is not a required field, but it helps to search manually in the order data. We recommend to use it. | Onlineshop | Text          | (no)      |
-| ORT                  | Contains the place name to the address.                      |            | Text max: 40  | yes       |
-| PLZ                  | The field contains the postal code.                          |            | Text max: 15  | yes       |
-| SHOPEMAIL            | Contains the e-mail address of the invoice recipient. This e-mail has priority over any e-mail from the address master data. When the invoice document is sent, this e-mail is used. Only if none is specified, the e-mail from the address master will be used. |            | Text max: 64  | (yes)     |
-| SHOPLEMAIL           | Contains the e-mail address of the delivery address.         |            | Text max: 64  | (yes)     |
-| SHOPLTEL             | The telephone number of the delivery address.                |            | Text max: 30  | no        |
-| SHOPTEL              | The phone number of the invoice recipient. This phone number has priority over any phone number from the address master data. |            | Text max: 30  | no        |
-| STRASSE              | The field contains the street to the address incl. the house number. The house number can be separated from the street name with the usual special characters. For Italy, for example, this would be a comma. |            | Text max: 40  | yes       |
+| Feld name            | Description                                                  | Standard   | Type                  | Mandatory |
+| -------------------- | ------------------------------------------------------------ | ---------- | --------------------- | --------- |
+| **ADRESSEID.ALIAS**  | Contains the key for the address reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ADRESSE** node. |            | Text                  | yes       |
+| **LADRESSEID.ALIAS** | Contains the key for the delivery address reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ADRESSE** node. The shipping address must be specified only if it is different from the billing address. If it is specified, the LADRESSEID.ALIAS must point to the dummy address record of the delivery address in the ADRESSE node - i.e. have the same content as the ID.ALIAS field of the delivery address there. Since the delivery address in the root must be empty, the delivery address fields LNAME1, LSTRASSE etc. must be filled in any case if the delivery address is different. |            | Text                  | (yes)     |
+| **ZIELID.ALIAS**     | Contains the key field for the payment term. Here the internally by EULANDA used name of the payment condition can be used. But also a new unknown name can be used here. The import would then first create a corresponding payment condition in the master data and reference it with the address. Common names would be SHOP.PAID, SHOP.PREPAID, SHOP.PAYPAL etc. |            | Text max: 100         | yes       |
+| BESTELLDATUM         | The date of the order is usually assigned by the user in a store system. This is usually the same date as the DATUM field. |            | DateTime              | yes       |
+| BESTELLNUMMER        | Order number of the external system used for referencing. This is managed in the merchandise management system as the customer order number. |            | Text max: 30          | yes       |
+| BRUTTOFLG            | This field indicates whether the sales price **VK** is a price including VAT. In a B2C order, this is usually the case. In a B2C online store, the prices are usually stated including VAT. The shopping cart is added and from the sum the VAT is calculated and indicated. There is only rounding. In order to be able to represent this in the merchandise management, these identical prices must be transferred in such a case and this is indicated with the BRUTTOFLG. |            | Boolean               | yes       |
+| DATUM                | Date and time of the order creation in the external system.  |            | DateTime              | yes       |
+| LAND                 | The country of the address is indicated with the two-digit ISO abbreviation. So FR for France, DE for Germany, etc. Internally, the merchandise management system can also work with the country abbreviations from the motor vehicle sector. In this case, Germany would be D instead of DE. However, only the two-digit ISO abbreviation may be used in the interface. The conversion to the internally used format is done automatically. |            | Text max: 6           | yes       |
+| LLAND                | The country of the delivery address is indicated with the two-digit ISO abbreviation. So FR for France, DE for Germany, etc. Internally, the merchandise management system can also work with the country abbreviations from the motor vehicle sector. In this case, Germany would be D instead of DE. However, only the two-digit ISO abbreviation may be used in the interface. The conversion to the internally used format is done automatically. |            | Text max: 6           | yes       |
+| LNAME1               | The name range of a delivery address consists of three possible name lines. They can be used freely. Usually, LNAME1 contains the company name. For private persons, the field can also be left blank. The delivery address only needs to be specified if it differs from the billing address. However, if this is specified, LADRESSEID.ALIAS must also be specified. |            | Text max: 40          | (no)      |
+| LNAME2               | The LNAME2 field of the delivery address is usually used for first name and last name. For companies this is then the contact person. |            | Text max: 40          | (no)      |
+| LNAME3               | The LNAME3 field of the delivery address is usually used for special designations; this can be the mailbox, a department or an otherwise important addition. |            | Text max: 40          | (no)      |
+| LSTRASSE             | The field contains the street to the address incl. the house number. The house number can be separated from the street name with the usual special characters. For Italy, for example, this would be a comma. |            | Text max: 40          | yes       |
+| LORT                 | Contains the city name for the delivery address.             |            | Text max: 40          | yes       |
+| LPLZ                 | The field contains the postal code for the delivery address. |            | Text max: 15          | yes       |
+| NAME1                | The name range of an address consists of three possible name lines. They can be used freely. Usually, NAME1 contains the company name. For private persons, the field can also be left blank. |            | Text max: 40          | yes       |
+| NAME2                | The NAME2 field is usually used for first name and last name. For companies, this is then the contact person. |            | Text max: 40          | yes       |
+| NAME3                | The NAME3 field is usually used for special designations; this can be the mailbox, a department, or an otherwise important addition. |            | Text max: 40          | no        |
+| OBJEKT               | An object designation, this can be a construction site or any other term that the customer chooses. As a rule, simply **Onlineshop** is entered there. It is not a required field, but it helps to search manually in the order data. We recommend to use it. | Onlineshop | Text                  | (no)      |
+| ORT                  | Contains the place name to the address.                      |            | Text max: 40          | yes       |
+| PLZ                  | The field contains the postal code.                          |            | Text max: 15          | yes       |
+| SHOPEMAIL            | Contains the e-mail address of the invoice recipient. This e-mail has priority over any e-mail from the address master data. When the invoice document is sent, this e-mail is used. Only if none is specified, the e-mail from the address master will be used. |            | Text max: 64          | (yes)     |
+| SHOPLEMAIL           | Contains the e-mail address of the delivery address.         |            | Text max: 64          | (yes)     |
+| SHOPLTEL             | The telephone number of the delivery address.                |            | Text max: 30          | no        |
+| SHOPTEL              | The phone number of the invoice recipient. This phone number has priority over any phone number from the address master data. |            | Text max: 30          | no        |
+| STRASSE              | The field contains the street to the address incl. the house number. The house number can be separated from the street name with the usual special characters. For Italy, for example, this would be a comma. |            | Text max: 40          | yes       |
+| USERD1               | Free user field for a date.                                  |            | DateTime; Userfield   | no        |
+| USERD2               | Free user field for a date.                                  |            | DateTime; Userfield   | no        |
+| USERI1               | Free user field for an integer value.                        |            | Integer: Userfield    | no        |
+| USERI2               | Free user field for an integer value.                        |            | Integer; Userfield    | no        |
+| USERI3               | Free user field for an integer value.                        |            | Integer; Userfield    | no        |
+| USERN1               | Free user field for a floating point number.                 |            | Float 18.2; Userfield | no        |
+| USERN2               | Free user field for a floating point number.                 |            | Float 18.2; Userfield | no        |
+| USERN3               | Free user field for a floating point number.                 |            | Float 18.6: Userfield | no        |
+| USERVC1              | Free user field for a string.                                |            | Text max: 50;         | no        |
+| USERVC2              | Free user field for a string.                                |            | Text max: 50;         | no        |
+| USERVC3              | Free user field for a string.                                |            | Text max: 100;        | no        |
 
 ## Field names
 
@@ -1587,13 +1614,24 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 
 These minimal fields of the order item are sufficient if the article master is known and referenced at this point via the ARTIKELID.ALIAS. Missing fields are then automatically completed by the master data.
 
-| Feld name           | Description                                                  | Standard | Type          | Mandatory |
-| ------------------- | ------------------------------------------------------------ | -------- | ------------- | --------- |
-| **ARTIKELID.ALIAS** | Contains the key for the article reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ARTIKEL** node. |          | Text max: 100 | yes       |
-| MENGE               | Sales quantity of the item.                                  |          |               | yes       |
-| BASIS               | Base price of the item, this is the purchase price incl. special conditions that have led to this order. Often it is the same as the purchase price of the item master. The base price can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2    | (no)      |
-| VKRAB               | The discounted selling price of this item based on one piece. The VKRAB can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2    | yes       |
-| VKVRAB              | The sales price of the item without discount. If the order BRUTTOFLG is set to 1, all prices of the item must be inclusive of VAT, otherwise without VAT. This field is needed to show the discount in an invoice later. |          | Float 18.2    | yes       |
+| Feld name           | Description                                                  | Standard | Type                  | Mandatory |
+| ------------------- | ------------------------------------------------------------ | -------- | --------------------- | --------- |
+| **ARTIKELID.ALIAS** | Contains the key for the article reference. It must have the same content as the corresponding **ID.ALIAS** field of the **ARTIKEL** node. |          | Text max: 100         | yes       |
+| MENGE               | Sales quantity of the item.                                  |          |                       | yes       |
+| BASIS               | Base price of the item, this is the purchase price incl. special conditions that have led to this order. Often it is the same as the purchase price of the item master. The base price can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2            | (no)      |
+| VKRAB               | The discounted selling price of this item based on one piece. The VKRAB can be specified with or without VAT. If the order's BRUTTOFLG is set to 1, all prices of the item must be specified including VAT, otherwise without VAT. |          | Float 18.2            | yes       |
+| VKVRAB              | The sales price of the item without discount. If the order BRUTTOFLG is set to 1, all prices of the item must be inclusive of VAT, otherwise without VAT. This field is needed to show the discount in an invoice later. |          | Float 18.2            | yes       |
+| USERD1              | Free user field for a date.                                  |          | DateTime; Userfield   | no        |
+| USERD2              | Free user field for a date.                                  |          | DateTime; Userfield   | no        |
+| USERI1              | Free user field for an integer value.                        |          | Integer: Userfield    | no        |
+| USERI2              | Free user field for an integer value.                        |          | Integer; Userfield    | no        |
+| USERI3              | Free user field for an integer value.                        |          | Integer; Userfield    | no        |
+| USERN1              | Free user field for a floating point number.                 |          | Float 18.2; Userfield | no        |
+| USERN2              | Free user field for a floating point number.                 |          | Float 18.2; Userfield | no        |
+| USERN3              | Free user field for a floating point number.                 |          | Float 18.6: Userfield | no        |
+| USERVC1             | Free user field for a string.                                |          | Text max: 50;         | no        |
+| USERVC2             | Free user field for a string.                                |          | Text max: 50;         | no        |
+| USERVC3             | Free user field for a string.                                |          | Text max: 100;        | no        |
 
 # Status message
 
