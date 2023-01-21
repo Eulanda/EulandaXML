@@ -86,16 +86,16 @@ This document is also available in [German](EulandaXML-DE.md) - if you have any 
 ```
 Christian Niedergesaess
 cn@eulanda.de
- 
+
 EULANDA Software GmbH
 Beuerbacher Weg 20
 65510 Huenstetten
 Germany
 ```
 
-The XML interface from and to EULANDA ERP allows the exchange of essential data between two EULANDA ERP systems or an EULANDA ERP and any store or order entry system. 
+The XML interface from and to EULANDA ERP allows the exchange of essential data between two EULANDA ERP systems or an EULANDA ERP and any store or order entry system.
 
-The interface was first introduced in 2000 as a pure article data exchange between two EULANDA systems and has since been continuously adapted to further tasks functions. 
+The interface was first introduced in 2000 as a pure article data exchange between two EULANDA systems and has since been continuously adapted to further tasks functions.
 
 Historically, all field names in the XML file are in German. Only some extension nodes, which are not relevant for legacy systems, were named in English.
 
@@ -168,9 +168,9 @@ Another possibility is that an external process fetches the XML files from an FT
 
 ## XML file names
 
-The filenames of XML files must follow a specific naming convention. The structure is **objectname-identifier-uid.xml** where the object name and the **file extension** are always in **lowercase**. 
+The filenames of XML files must follow a specific naming convention. The structure is **objectname-identifier-uid.xml** where the object name and the **file extension** are always in **lowercase**.
 
-> A file name may only be used 1x for a transfer. 
+> A file name may only be used 1x for a transfer.
 
 Allowed characters are:
 
@@ -265,7 +265,7 @@ DECLARE @uid UNIQUEIDENTIFIER = NEWID();
 SELECT CONVERT(CHAR(255), @uid) [UID];
 ```
 
-### Create a UID in Powershell 
+### Create a UID in Powershell
 
 ```
 (Get-WmiObject -Class Win32_ComputerSystemProduct).UUID
@@ -288,11 +288,11 @@ Text fields with the MatchSet attribute are a historical feature. These include 
 ```
 ä -> AE
 ü -> UE
-ö -> OE 
+ö -> OE
 ß -> SS
 ```
 
-Fields with the MatchSet attribute are used in foreign systems and are often used as backward references. For this reason, only a few special characters are allowed. 
+Fields with the MatchSet attribute are used in foreign systems and are often used as backward references. For this reason, only a few special characters are allowed.
 
 Allowed characters are:
 
@@ -356,7 +356,7 @@ Which subfields are allowed in which place is specified in the corresponding pla
 
 # References and unique keys
 
-Within a record, e.g. an article, the ID of the article is specified as the first field. The field content is identical to the unique key of the table. For **article** this is the **article number**. 
+Within a record, e.g. an article, the ID of the article is specified as the first field. The field content is identical to the unique key of the table. For **article** this is the **article number**.
 
 ```xml
 <ARTIKELLISTE>
@@ -371,7 +371,7 @@ Within a record, e.g. an article, the ID of the article is specified as the firs
 </ARTIKELLISTE>
 ```
 
-If references to another object node are required in a file, this is done via an **ID field**. 
+If references to another object node are required in a file, this is done via an **ID field**.
 
 ```xml
 <AUFTRAGLISTE>
@@ -408,13 +408,13 @@ The specification of the ARTIKELLISTE node in an order is only necessary if the 
 
 ## Address references
 
-The unique key field in the address section is the **MATCH** field. It is strongly recommended to use the orderer's email address as **MATCH**. If multiple order entry systems are used at the same time, it may be useful to prepend a prefix. 
+The unique key field in the address section is the **MATCH** field. It is strongly recommended to use the orderer's email address as **MATCH**. If multiple order entry systems are used at the same time, it may be useful to prepend a prefix.
 
 In the following example, "SHOPIFY" is used as the prefix. The **MATCH** field here has the content `SHOPIFY=FACEMONTY@TOOLHEROS.DE`. For processing reasons the field **ID-ALIAS** must also be specified with the same content. The prefix should be short, because the **MATCH** field is limited to 80 characters in the database.
 
 As a rule, the address information is also transferred with the complete master data in the order file. Store systems allow especially in the B2C area the self-registration as a new customer. It can therefore not be assumed that the address data record is already in the merchandise management system.
 
-A total of two addresses are supported per order - the billing address and the shipping address. The delivery address always has a preceding "L" in the field names of the order. The **NAME1** field of the invoice address would then be **LNAME1** in the delivery address. 
+A total of two addresses are supported per order - the billing address and the shipping address. The delivery address always has a preceding "L" in the field names of the order. The **NAME1** field of the invoice address would then be **LNAME1** in the delivery address.
 
 Since an invoice address can have any number of delivery addresses and these can not be mapped easily as an EULANDA contact, the delivery address is always created as a placeholder in the master data and only referenced. The complete delivery address stands then compellingly in the order node. However, it is necessary only if this differs from the invoice address. However, it does no harm if the delivery address fields are always filled.
 
@@ -478,9 +478,9 @@ The order of XML nodes and repetitions are shown here schematically:
 		<ARTIKEL>
         	< ... Article fields ... >
 		</ARTIKEL>
-		<ARTIKEL>			
+		<ARTIKEL>
 			< ... more articles ... >
-		</ARTIKEL>		
+		</ARTIKEL>
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
 		<ADRESSE>
@@ -509,12 +509,12 @@ The order of XML nodes and repetitions are shown here schematically:
 		</AUFTRAG>
 		<AUFTRAG>
 			<... more orders ... >
-		</AUFTRAG>		
+		</AUFTRAG>
 	</AUFTRAGLISTE>
 </EULANDA>
 ```
 
-If it is about a pure article data, of course the nodes ADRESSLISTE and AUFTRAGLISTE need not be listed. In this case the file name product\*.xml is to be selected. If orders are transmitted, then all nodes are to be transferred and the file name order\*.xml is to be used. If no article master data are to be indicated, it is sufficient to transfer an empty node ARTIKELLISTE. 
+If it is about a pure article data, of course the nodes ADRESSLISTE and AUFTRAGLISTE need not be listed. In this case the file name product\*.xml is to be selected. If orders are transmitted, then all nodes are to be transferred and the file name order\*.xml is to be used. If no article master data are to be indicated, it is sufficient to transfer an empty node ARTIKELLISTE.
 
 If article data are transferred, at least one empty MERKMALBAUM node with an enclosed empty ARTIKEL node must be specified.
 
@@ -572,7 +572,7 @@ The meta data stand at the file beginning and describe different standards, whic
 
 # Merkmale
 
-The classification of products into groups is called **catalogs** or **categories** by store systems. In EULANDA we use properties for this. These are usable with any data object, so also with customers, offers, orders etc. 
+The classification of products into groups is called **catalogs** or **categories** by store systems. In EULANDA we use properties for this. These are usable with any data object, so also with customers, offers, orders etc.
 
 Properties are organized in a tree structure. Here all are folders and only the ends can be linked to a data record, such as an article. Each data record can be referenced in any number of properties.
 
@@ -597,35 +597,35 @@ The following is a simple feature tree three branches away from the root, The se
 		<MERKMAL>
 			<NAME>Bathroom fittings</NAME>
 			<MERKMALTYP>1</MERKMALTYP>
-			<BESCHREIBUNG>Bathroom fittings etc...</BESCHREIBUNG>				
+			<BESCHREIBUNG>Bathroom fittings etc...</BESCHREIBUNG>
 			<UID>{1884B00B-50C4-402D-BA2E-61140C301099}</UID>
 		</MERKMAL>
 		<MERKMAL>
 			<NAME>Manufacturer</NAME>
 			<MERKMALTYP>0</MERKMALTYP>
-			<BESCHREIBUNG>We list all well-known manufacturers, should nevertheless...</BESCHREIBUNG>			
+			<BESCHREIBUNG>We list all well-known manufacturers, should nevertheless...</BESCHREIBUNG>
 			<UID>{1884B00B-60C4-402D-BA2E-61140C301099}</UID>
 			<MERKMAL>
 				<NAME>Grohe</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Grohe is since the year...</BESCHREIBUNG>			
+				<BESCHREIBUNG>Grohe is since the year...</BESCHREIBUNG>
 				<UID>{2884B00B-60C4-402D-BA2E-61140C301099}</UID>
-			</MERKMAL> 
+			</MERKMAL>
 			<MERKMAL>
 				<NAME>Roco</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Roco is since the year...</BESCHREIBUNG>			
+				<BESCHREIBUNG>Roco is since the year...</BESCHREIBUNG>
 				<UID>{2984B00B-60C4-402D-BA2E-61140C301099}</UID>
-			</MERKMAL> 				
+			</MERKMAL>
 		</MERKMAL>
 			<MERKMAL>
 				<NAME>Tools</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Tools for home and garden...</BESCHREIBUNG>				
+				<BESCHREIBUNG>Tools for home and garden...</BESCHREIBUNG>
 				<UID>{9884B00B-50C4-402D-BA2E-61140C301099}</UID>
 		</MERKMAL>
 	</ARTIKEL>
-</MERKMALBAUM>					
+</MERKMALBAUM>
 ```
 
 A fully described end feature including languages would accordingly look like the following:
@@ -678,7 +678,7 @@ Grohe
 
 # Article master data
 
-Article data, which is used for a pure master data creation, has the file name **product\*.xml**. Besides the usual fields of an article master, it can also contain store specific information. This can be meta information for search engines, image URLs, cross- or up-selling details, etc. 
+Article data, which is used for a pure master data creation, has the file name **product\*.xml**. Besides the usual fields of an article master, it can also contain store specific information. This can be meta information for search engines, image URLs, cross- or up-selling details, etc.
 
 In addition, the article master can contain the catalogs (= properties) and their assignment. Article texts can be specified in various foreign languages. For closed systems, customer groups with price lists can also be mapped in the master record.
 
@@ -722,9 +722,9 @@ If articles are to be transferred from the Shop to an EULANDA, then the catalog 
 		<SHOP>
 			<ARTICLETYPE>1</ARTICLETYPE>
 			<SALESSIZE>750.00</SALESSIZE>
-			<SALESUNIT>ml</SALESUNIT>			
+			<SALESUNIT>ml</SALESUNIT>
 			<BASEDIVISOR>1</BASEDIVISOR>
-			<BASEUNIT>l</BASEUNIT>			
+			<BASEUNIT>l</BASEUNIT>
 			<CROSS1>4022009275957</CROSS1>
 			<CROSS2>""</CROSS2>
 			<CROSS3>""</CROSS3>
@@ -1067,7 +1067,7 @@ If articles are to be transferred from the Shop to an EULANDA, then the catalog 
 
 ## ARTIKELLISTE.ARTIKEL.SHOP
 
-These field names are only allowed in the SHOP node below the ARTIKEL node. 
+These field names are only allowed in the SHOP node below the ARTIKEL node.
 
 > NOTE: They require the installation of the store extension, which is part of the interface.
 
@@ -1081,7 +1081,7 @@ These field names are only allowed in the SHOP node below the ARTIKEL node.
 | DIMENSIONDEPTH     | Product depth in mm                                          |          | Integer                  | no        |
 | DIMENSIONHEIGHT    | Product height in mm                                         |          | Integer                  | no        |
 | DIMENSIONWIDTH     | Product width in mm                                          |          | Integer                  | no        |
-| IMAGE1 .. IMAGE15  | These fields can each contain an image URL to product images. The file name, of the jpg or png file, should be structured to contain the article number followed by a hyphen and a running image number from 1-15. If a different file name is chosen, the image can only be used for initial data transfer. The numbering ensures that images can be added, deleted or exchanged in the system. For the article number **4711**, the first image would then be a URL like: **`http://www.eulanda.eu/images/4711-1.jpg`** would be a good choice. Images should all be of the same image type. The image extension should be 3 digits, so not **jpeg** but **jpg**. The sequence numbers should have no gaps in the numbering. The interface then downloads the images via the URL during import and stores them in the local DMS. The resolution should be 2000x2000 pixels if possible (not by enlargement), the proportion should be square if possible. For images with background, it should be pure white. Preferably, images should be on transparent background and be in png format. The main image should have the sequence number 1. Technical drawings should be the last images in the sequence. |          | URL max: 64              | no        |
+| IMAGE1 .. IMAGE15  | These fields can each contain an image URL to product images. The file name, of the jpg or png file, should be structured to contain the article number followed by a hyphen and a running image number from 1-15. If a different file name is chosen, the image can only be used for initial data transfer. The numbering ensures that images can be added, deleted or exchanged in the system. For the article number **4711**, the first image would then be a URL like: **`images/4711-1.jpg`** would be a good choice. Images should all be of the same image type. The image extension should be 3 digits, so not **jpeg** but **jpg**. The sequence numbers should have no gaps in the numbering. The interface then downloads the images via the URL during import and stores them in the local DMS. The resolution should be 2000x2000 pixels if possible (not by enlargement), the proportion should be square if possible. For images with background, it should be pure white. Preferably, images should be on transparent background and be in png format. The main image should have the sequence number 1. Technical drawings should be the last images in the sequence. |          | URL max: 64              | no        |
 | INFOURL            | A URL to more detailed information. The field is usually not used because there are better methods today. |          | Text max: 128            | no        |
 | INFOURLTEXT        | The text to the INFOURL to create an HTML link from it. The field is usually not used because there are better methods today. |          | Text max: 64             | no        |
 | METADESCRIPTION    | The METADESCRIPTION is needed as meta information in HTML pages to provide search engine friendly content. |          | Text                     | no        |
@@ -1193,7 +1193,7 @@ If the price change file is exported, it must be output to the **\outbox\pending
 
 The warehouse stock can be exchanged via a separate data record. Since this is then output compactly and without a feature tree, processing is significantly faster.
 
-Events are used within the merchandise management system so that the stock changes are processed via a queue. This increases the processing speed for a large number of articles (> 100,000). 
+Events are used within the merchandise management system so that the stock changes are processed via a queue. This increases the processing speed for a large number of articles (> 100,000).
 
 In addition, you can specify whether the inventory of your own warehouse or the informative inventory of a supplier should be relevant.
 
@@ -1478,7 +1478,7 @@ The same order, without article master data but with the address master data wou
 	</MERKMALBAUM>
 	<RABATTLISTE/>
 	<ARTIKELLISTE>
-		<ARTIKEL/>			
+		<ARTIKEL/>
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
 		<ADRESSE>
@@ -1552,7 +1552,7 @@ It should be noted that the ARTIKELLISTE node must be specified in any case, eve
 
 ```xml
 <ARTIKELLISTE>
-	<ARTIKEL/>			
+	<ARTIKEL/>
 </ARTIKELLISTE>
 ```
 

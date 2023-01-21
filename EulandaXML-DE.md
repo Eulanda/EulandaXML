@@ -81,21 +81,21 @@
 
 # EULANDA XML-Schnittstelle
 
-Dieses Dokument ist auch in [englischer Sprache](EulandaXML-EN.md) verfügbar - bei Fragen wenden Sie sich bitte an: 
+Dieses Dokument ist auch in [englischer Sprache](EulandaXML-EN.md) verfügbar - bei Fragen wenden Sie sich bitte an:
 
 ```
 Christian Niedergesäß
 cn@eulanda.de
- 
+
 EULANDA Software GmbH
 Beuerbacher Weg 20
 65510 Hünstetten
 Germany
 ```
 
-Die XML-Schnittstelle von und zur EULANDA Warenwirtschaft erlaubt den Austausch der wesentlichen Daten zwischen zwei EULANDA-ERP-Systemen oder einer EULANDA-ERP und einem beliebigen Shop- oder Auftragserfassungs-System. 
+Die XML-Schnittstelle von und zur EULANDA Warenwirtschaft erlaubt den Austausch der wesentlichen Daten zwischen zwei EULANDA-ERP-Systemen oder einer EULANDA-ERP und einem beliebigen Shop- oder Auftragserfassungs-System.
 
-Die Schnittstelle wurde im Jahr 2000 erstmalig als reiner Artikel-Datenaustausch zwischen zwei EULANDA-Systemen eingeführt und seitdem kontinuierlich an weitere Aufgaben Funktionen angepasst. 
+Die Schnittstelle wurde im Jahr 2000 erstmalig als reiner Artikel-Datenaustausch zwischen zwei EULANDA-Systemen eingeführt und seitdem kontinuierlich an weitere Aufgaben Funktionen angepasst.
 
 Historisch bedingt, sind alle Feldnamen in der XML-Datei in Deutsch. Lediglich einige Erweiterungs-Knoten, die für Altsysteme nicht relevant sind, wurden in Englisch bezeichnet.
 
@@ -171,7 +171,7 @@ Eine andere Möglichkeit ist es, dass ein externer Prozess die XML-Dateien von e
 
 Die Dateinamen der XML-Dateien müssen einer bestimmten Namensgebung folgen. Der Aufbau ist **objektname-kennung-uid.xml** wobei der Objektname und die **Dateiextension** immer in **Kleinbuchstaben** sind.
 
-> Ein Dateiname darf für eine Übertragung nur 1x verwendet werden. 
+> Ein Dateiname darf für eine Übertragung nur 1x verwendet werden.
 
 Erlaubte Zeichen sind:
 
@@ -266,7 +266,7 @@ DECLARE @uid UNIQUEIDENTIFIER = NEWID();
 SELECT CONVERT(CHAR(255), @uid) [UID];
 ```
 
-### Erzeugen einer UID in Powershell 
+### Erzeugen einer UID in Powershell
 
 ```
 (Get-WmiObject -Class Win32_ComputerSystemProduct).UUID
@@ -289,11 +289,11 @@ Eine historische Besonderheit sind Textfelder mit dem Attribut MatchSet. Dazu ge
 ```
 ä -> AE
 ü -> UE
-ö -> OE 
+ö -> OE
 ß -> SS
 ```
 
-Felder mit dem MatchSet-Attribut werden in Fremdsystemen benutzt und oft als Rückwärtsreferenz verwendet. Aus diesem Grunde sind nur wenige Sonderzeichen erlaubt. 
+Felder mit dem MatchSet-Attribut werden in Fremdsystemen benutzt und oft als Rückwärtsreferenz verwendet. Aus diesem Grunde sind nur wenige Sonderzeichen erlaubt.
 
 Erlaubte Zeichen sind:
 
@@ -356,7 +356,7 @@ Welche Unterfelder an welcher Stelle erlaubt sind wird an den entsprechenden Ste
 
 # Referenzen und eindeutige Schlüssel
 
-Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des Artikels angegeben. Der Feldinhalt ist identisch mit dem eindeutigen Schlüssel der Tabelle. Beim **Artikel** ist dies die **Artikel-Nummer**. 
+Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des Artikels angegeben. Der Feldinhalt ist identisch mit dem eindeutigen Schlüssel der Tabelle. Beim **Artikel** ist dies die **Artikel-Nummer**.
 
 ```xml
 <ARTIKELLISTE>
@@ -371,7 +371,7 @@ Innerhalb eines Datensatzes, z.B. eines Artikels wird als erstes Feld die ID-des
 </ARTIKELLISTE>
 ```
 
-Werden in einer Dateien Referenzen zu einem anderen Objekt-Knoten benötigt, so erfolgt dies über ein **ID-Feld**. 
+Werden in einer Dateien Referenzen zu einem anderen Objekt-Knoten benötigt, so erfolgt dies über ein **ID-Feld**.
 
 ```xml
 <AUFTRAGLISTE>
@@ -408,13 +408,13 @@ Die Angabe des Knotens ARTIKELLISTE in einem Auftrag ist nur notwendig, wenn die
 
 ## Adressen-Referenzen
 
-Das eindeutige Schlüsselfeld im Adressbereich ist das Feld **MATCH**. Es wird dringend empfohlen, die E-Mail-Adresse des Bestellers als **MATCH** zu verwendet. Werden mehrere Auftragserfassungssysteme gleichzeitig genutzt, kann es sinnvoll sein ein Präfix voranzustellen. 
+Das eindeutige Schlüsselfeld im Adressbereich ist das Feld **MATCH**. Es wird dringend empfohlen, die E-Mail-Adresse des Bestellers als **MATCH** zu verwendet. Werden mehrere Auftragserfassungssysteme gleichzeitig genutzt, kann es sinnvoll sein ein Präfix voranzustellen.
 
 Im folgenden Beispiel wird "SHOPIFY" als Präfix verwendet. Das Feld **MATCH** hat hier den Inhalt `SHOPIFY=FACEMONTY@TOOLHEROS.DE`. Aus verarbeitungstechnischen Gründen **muss** ebenfalls das Feld **ID-ALIAS** mit demselben Inhalt angegeben werden. Das Präfix sollte kurz sein, da das Feld **MATCH** in der Datenbank auf 80 Zeichen limitiert ist.
 
 In der Regel werden in der Auftragsdatei auch die Adressen-Informationen mit den kompletten Stammdaten übergeben. Shop-Systeme erlauben gerade im B2C-Bereich das selbst registrieren als Neukunde. Man kann also nicht davon ausgehen, dass der Adress-Datensatz sich bereits in der Warenwirtschaft befindet.
 
-Insgesamt werden zwei Adressen pro Auftrag unterstützt - die Rechnung- und die Lieferadresse. Die Lieferadresse hat in den Feldnamen des Auftrags immer ein vorangestelltes "L". Das Feld **NAME1** der Rechnungsadresse wäre dann in der Lieferadresse **LNAME1**. 
+Insgesamt werden zwei Adressen pro Auftrag unterstützt - die Rechnung- und die Lieferadresse. Die Lieferadresse hat in den Feldnamen des Auftrags immer ein vorangestelltes "L". Das Feld **NAME1** der Rechnungsadresse wäre dann in der Lieferadresse **LNAME1**.
 
 Da eine Rechnung-Adresse beliebig viele Lieferadressen haben kann und diese sich nicht ohne weiteres als EULANDA-Kontakt abbilden lassen, wird die Lieferadresse immer als Platzhalter in den Stammdaten angelegt und nur referenziert. Die vollständige Lieferadresse steht dann zwingend im Auftrags-Knoten. Sie ist aber nur erforderlich, wenn diese von der Rechnungsadresse abweicht. Schaden tut es jedoch nicht wenn die Lieferadress-Felder immer befüllt werden.
 
@@ -478,9 +478,9 @@ Die Reihenfolge der XML-Knoten und Wiederholungen sind hier schematisch dargeste
 		<ARTIKEL>
         	< ... Artikelfelder ... >
 		</ARTIKEL>
-		<ARTIKEL>			
+		<ARTIKEL>
 			< ... weitere Artikel ... >
-		</ARTIKEL>		
+		</ARTIKEL>
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
 		<ADRESSE>
@@ -509,12 +509,12 @@ Die Reihenfolge der XML-Knoten und Wiederholungen sind hier schematisch dargeste
 		</AUFTRAG>
 		<AUFTRAG>
 			<... weitere Aufträge ... >
-		</AUFTRAG>		
+		</AUFTRAG>
 	</AUFTRAGLISTE>
 </EULANDA>
 ```
 
-Wenn es um eine reine Artikel-Daten geht, brauchen natürlich die Knoten ADRESSLISTE und AUFTRAGLISTE nicht aufgeführt zu werden. In diesem Fall ist der Dateiname product\*.xml zu wählen. Werden Aufträge übermittelt, dann sind alle Knoten zu übergeben und der Dateiname order\*.xml ist zu verwenden. Sollen keine Artikel-Stammdaten angegeben werden, genügt es einen leeren Knoten ARTIKELLISTE zu übergeben. 
+Wenn es um eine reine Artikel-Daten geht, brauchen natürlich die Knoten ADRESSLISTE und AUFTRAGLISTE nicht aufgeführt zu werden. In diesem Fall ist der Dateiname product\*.xml zu wählen. Werden Aufträge übermittelt, dann sind alle Knoten zu übergeben und der Dateiname order\*.xml ist zu verwenden. Sollen keine Artikel-Stammdaten angegeben werden, genügt es einen leeren Knoten ARTIKELLISTE zu übergeben.
 
 Werden Artikeldaten übergeben so ist zumindest ein leerer Knoten MERKMALBAUM mit eingeschlossenem leeren ARTIKEL-Knoten mit anzugeben.
 
@@ -573,7 +573,7 @@ Die Metadaten stehen am Dateianfang und beschreiben verschiedene Standards, die 
 
 # Merkmale
 
-Die Einteilung von Produkten in Gruppen nennen Shop-Systeme **Kataloge** oder **Kategorien**. In EULANDA benutzen wir hierfür Merkmale. Diese sind mit jedem Datenobjekt verwendbar, also auch mit Kunden, Angeboten, Aufträgen usw. 
+Die Einteilung von Produkten in Gruppen nennen Shop-Systeme **Kataloge** oder **Kategorien**. In EULANDA benutzen wir hierfür Merkmale. Diese sind mit jedem Datenobjekt verwendbar, also auch mit Kunden, Angeboten, Aufträgen usw.
 
 Merkmale sind in einer Baumstruktur organisiert. Hierbei sind alles Ordner und lediglich die Enden können mit einem Datensatz, wie zum Beispiel einem Artikel, verbunden werden. Jeder Datensatz kann in beliebig vielen Merkmalen referenziert werden.
 
@@ -598,35 +598,35 @@ Im folgenden ist ein einfacher Merkmalbaum drei Ästen von der Root weg aufgefü
 		<MERKMAL>
 			<NAME>Bad- Armaturen</NAME>
 			<MERKMALTYP>1</MERKMALTYP>
-			<BESCHREIBUNG>Bad- Armaturen usw...</BESCHREIBUNG>				
+			<BESCHREIBUNG>Bad- Armaturen usw...</BESCHREIBUNG>
 			<UID>{1884B00B-50C4-402D-BA2E-61140C301099}</UID>
 		</MERKMAL>
 		<MERKMAL>
 			<NAME>Hersteller</NAME>
 			<MERKMALTYP>0</MERKMALTYP>
-			<BESCHREIBUNG>Wir listen alle namenhaften Hersteller, sollte dennoch...</BESCHREIBUNG>			
+			<BESCHREIBUNG>Wir listen alle namenhaften Hersteller, sollte dennoch...</BESCHREIBUNG>
 			<UID>{1884B00B-60C4-402D-BA2E-61140C301099}</UID>
 			<MERKMAL>
 				<NAME>Grohe</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Grohe ist seit dem Jahr...</BESCHREIBUNG>			
+				<BESCHREIBUNG>Grohe ist seit dem Jahr...</BESCHREIBUNG>
 				<UID>{2884B00B-60C4-402D-BA2E-61140C301099}</UID>
-			</MERKMAL> 
+			</MERKMAL>
 			<MERKMAL>
 				<NAME>Roco</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Roco ist seit dem Jahr...</BESCHREIBUNG>			
+				<BESCHREIBUNG>Roco ist seit dem Jahr...</BESCHREIBUNG>
 				<UID>{2984B00B-60C4-402D-BA2E-61140C301099}</UID>
-			</MERKMAL> 				
+			</MERKMAL>
 		</MERKMAL>
 			<MERKMAL>
 				<NAME>Werkzeuge</NAME>
 				<MERKMALTYP>1</MERKMALTYP>
-				<BESCHREIBUNG>Werkzeuge für Haus und Garten...</BESCHREIBUNG>				
+				<BESCHREIBUNG>Werkzeuge für Haus und Garten...</BESCHREIBUNG>
 				<UID>{9884B00B-50C4-402D-BA2E-61140C301099}</UID>
 		</MERKMAL>
 	</ARTIKEL>
-</MERKMALBAUM>					
+</MERKMALBAUM>
 ```
 
 Ein vollständig beschriebenes End-Merkmal inkl. Sprachen würde entsprechend wie folgt aussehen:
@@ -678,7 +678,7 @@ Grohe
 
 # Artikel-Stammdaten
 
-Artikeldaten, die für eine reine Stammdatenanlage verwendet werden, haben den Dateinamen **product\*.xml**. Neben den üblichen Feldern eines Artikelstamms, kann dieser auch shop-spezifische Angaben enthalten. Dies können Meta-Informationen für die Suchmaschinen sein, Bild-URLs, Cross- oder Up-Selling Angaben usw. 
+Artikeldaten, die für eine reine Stammdatenanlage verwendet werden, haben den Dateinamen **product\*.xml**. Neben den üblichen Feldern eines Artikelstamms, kann dieser auch shop-spezifische Angaben enthalten. Dies können Meta-Informationen für die Suchmaschinen sein, Bild-URLs, Cross- oder Up-Selling Angaben usw.
 
 Zusätzlich kann der Artikelstamm die Kataloge (= Merkmale) und deren Zuordnung enthalten. Artikeltexte lassen sich in verschiedenen Fremdsprachen angeben. Für geschlossene Systeme lassen sich auch Kundengruppen mit Preislisten im Stammsatz abbilden.
 
@@ -721,9 +721,9 @@ Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuo
 		<SHOP>
 			<ARTICLETYPE>1</ARTICLETYPE>
 			<SALESSIZE>750.00</SALESSIZE>
-			<SALESUNIT>ml</SALESUNIT>			
+			<SALESUNIT>ml</SALESUNIT>
 			<BASEDIVISOR>1</BASEDIVISOR>
-			<BASEUNIT>l</BASEUNIT>			
+			<BASEUNIT>l</BASEUNIT>
 			<CROSS1>4022009275957</CROSS1>
 			<CROSS2>""</CROSS2>
 			<CROSS3>""</CROSS3>
@@ -1065,7 +1065,7 @@ Sollen Artikel vom Shop an eine EULANDA übergeben werden, so ist die Katalogzuo
 
 ## ARTIKELLISTE.ARTIKEL.SHOP
 
-Diese Feldnamen sind nur im Knoten SHOP unterhalb des Knoten ARTIKEL zulässig. 
+Diese Feldnamen sind nur im Knoten SHOP unterhalb des Knoten ARTIKEL zulässig.
 
 > HINWEIS: Sie erfordern die Installation der Shop-Erweiterung, die Bestandteil der Schnittstelle ist.
 
@@ -1078,7 +1078,7 @@ Diese Feldnamen sind nur im Knoten SHOP unterhalb des Knoten ARTIKEL zulässig.
 | DIMENSIONDEPTH     | Produkttiefe in mm                                           |          | Integer                  | nein |
 | DIMENSIONHEIGHT    | Produkthöhe in mm                                            |          | Integer                  | nein |
 | DIMENSIONWIDTH     | Produktbreite in mm                                          |          | Integer                  | nein |
-| IMAGE1 .. IMAGE15  | Diese Felder können jeweils eine Bild-URL zu Produktbildern enthalten. Der Dateiname, der jpg- oder png-Datei, sollte so aufgebaut sein, dass er die Artikelnummer, gefolgt von einem Bindestrich und einer laufenden Bildnummer von 1-15 enthält. Wird ein anderer Dateiname gewählt, so kann das Bild nur zur Daten-Erstübernahme verwendet werden. Durch die Nummerierung wird gewährleistet, dass Bilder im System ergänzt, gelöscht oder ausgetauscht werden können. Für die Artikel-Nummer **4711** wäre dann das erste Bild eine URL wie: **`http://www.eulanda.eu/images/4711-1.jpg`** eine gute Wahl. Bilder sollten alle vom selben Bild-Typ sein. Die Bild-Extension sollte 3-stellig sein, also nicht **jpeg** sondern **jpg**. Die laufenden Nummern sollten keine Lücken in der Nummerierung haben. Die Schnittstelle lädt dann beim Import die Bilder über die URL herunter und speichert diese im lokalen DMS. Die Auflösung sollte wenn möglich 2000x2000 Pixel sein (nicht durch Vergrößerung), die Proportion nach Möglichkeit quadratisch. Bei Bildern mit Hintergrund sollte dieser rein weiß sein. Vorzugsweise sollten Bilder auf transparentem Hintergrund liegen und im png-Format sein. Das Hauptbild sollte die laufende Nummer 1 haben. Technische Zeichnungen sollten die letzten Bilder der Reihenfolge sein. |          | URL max: 64              | nein |
+| IMAGE1 .. IMAGE15  | Diese Felder können jeweils eine Bild-URL zu Produktbildern enthalten. Der Dateiname, der jpg- oder png-Datei, sollte so aufgebaut sein, dass er die Artikelnummer, gefolgt von einem Bindestrich und einer laufenden Bildnummer von 1-15 enthält. Wird ein anderer Dateiname gewählt, so kann das Bild nur zur Daten-Erstübernahme verwendet werden. Durch die Nummerierung wird gewährleistet, dass Bilder im System ergänzt, gelöscht oder ausgetauscht werden können. Für die Artikel-Nummer **4711** wäre dann das erste Bild eine URL wie: **`images/4711-1.jpg`** eine gute Wahl. Bilder sollten alle vom selben Bild-Typ sein. Die Bild-Extension sollte 3-stellig sein, also nicht **jpeg** sondern **jpg**. Die laufenden Nummern sollten keine Lücken in der Nummerierung haben. Die Schnittstelle lädt dann beim Import die Bilder über die URL herunter und speichert diese im lokalen DMS. Die Auflösung sollte wenn möglich 2000x2000 Pixel sein (nicht durch Vergrößerung), die Proportion nach Möglichkeit quadratisch. Bei Bildern mit Hintergrund sollte dieser rein weiß sein. Vorzugsweise sollten Bilder auf transparentem Hintergrund liegen und im png-Format sein. Das Hauptbild sollte die laufende Nummer 1 haben. Technische Zeichnungen sollten die letzten Bilder der Reihenfolge sein. |          | URL max: 64              | nein |
 | INFOURL            | Eine URL zu weiterführender Information. Das Feld wird normalerweise nicht verwendet, da es heute bessere Methoden gibt. |          | Text max: 128            | nein |
 | INFOURLTEXT        | Der Text zu der INFOURL um daraus einen HTML-Link zu erstellen. Das Feld wird normalerweise nicht verwendet, da es heute bessere Methoden gibt. |          | Text max: 64             | nein |
 | METADESCRIPTION    | Die METADESCRIPTION wird als Meta-Informationen in HTML-Seiten benötigt, um suchmaschinenfreundliche Inhalte anzubieten. |          | Text                     | nein |
@@ -1188,7 +1188,7 @@ Wird die Preisänderungs-Datei exportiert muss diese in den **\outbox\pending**-
 
 Der Lagerbestand kann über einen eigenen Datensatz ausgetauscht werden. Da dieser dann kompakt und ohne Merkmalbaum ausgegeben wird, ist die Verarbeitung deutlich schneller.
 
-Innerhalb der Warenwirtschaft werden Ereignisse genutzt, so dass die Lagerbestands-Änderungen über eine Warteschlange verarbeitet werden. Dies erhöht bei großer Artikelanzahl (> 100.000 ) nocheinmal deutlich die Verarbeitungsgeschwindigkeit. 
+Innerhalb der Warenwirtschaft werden Ereignisse genutzt, so dass die Lagerbestands-Änderungen über eine Warteschlange verarbeitet werden. Dies erhöht bei großer Artikelanzahl (> 100.000 ) nocheinmal deutlich die Verarbeitungsgeschwindigkeit.
 
 Zusätzlich kann angeben werden ob der Warenbestand des eigenen Lagers oder der informative Lagerbestand eines Lieferanten relevant sein soll.
 
@@ -1473,7 +1473,7 @@ Der gleiche Auftrag, ohne Artikel-Stammdaten jedoch mit den Adresse-Stammdaten w
 	</MERKMALBAUM>
 	<RABATTLISTE/>
 	<ARTIKELLISTE>
-		<ARTIKEL/>			
+		<ARTIKEL/>
 	</ARTIKELLISTE>
 	<ADRESSELISTE>
 		<ADRESSE>
@@ -1547,7 +1547,7 @@ Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, a
 
 ```xml
 <ARTIKELLISTE>
-	<ARTIKEL/>			
+	<ARTIKEL/>
 </ARTIKELLISTE>
 ```
 
@@ -1595,7 +1595,7 @@ Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, a
 | USERVC2              | Freies Benutzerfeld für einen Text.                          |            | Text max: 50;         | nein   |
 | USERVC3              | Freies Benutzerfeld für einen Text.                          |            | Text max: 100;        | nein   |
 
-## Feldname 
+## Feldname
 
 ## AUFTRAGLISTE.AUFTRAG.SHOP.SHIPPINGINFO
 
@@ -1603,7 +1603,7 @@ Zu beachten ist, dass der Knoten ARTIKELLISTE in jedem Fall mit anzugeben ist, a
 | -------- | -------------------------------------- | -------- | ---------- | ---- |
 | COST     | Enthält die Versandkosten der Sendung. |          | Float 18.2 | nein |
 
-## Feldname 
+## Feldname
 
 ## AUFTRAGLISTE.AUFTRAG.AUFTRAGPOSLISTE.AUFTRAGPOS
 
